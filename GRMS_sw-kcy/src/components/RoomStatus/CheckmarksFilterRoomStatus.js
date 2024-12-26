@@ -84,7 +84,7 @@ export default function CheckmarksFilterRoomStatus({ category, categoryNames, on
             <MenuItem
               key={name}
               value={name}
-              style={{...getStyles(name, categoryName), color: "adminCheckmarksFilterRoomStatusTextColor"}}
+              style={{...getStyles(name, categoryName), color: adminCheckmarksFilterRoomStatusTextColor}}
 
             >
               <span className="badgeContainer" >

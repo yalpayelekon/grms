@@ -5,8 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 import http.client
 from .helper import logger
 
-lat = 36.86281810
-lon = 31.05500930
+lat = 25.276987
+lon = 55.296249
 
 @csrf_exempt
 def getTemperatureData(request):

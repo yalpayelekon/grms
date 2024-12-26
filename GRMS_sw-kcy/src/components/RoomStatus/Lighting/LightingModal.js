@@ -198,6 +198,28 @@ const LightingModal = ({ selectedLightingOda, isLightingModalOpen, setIsLighting
 
     };
 
+    const handleGetScaledCoordinates = (btn, imgRef) => {
+        if (!imgRef.current) return {};
+    
+        const imgElement = imgRef.current;
+        const naturalWidth = imgElement.naturalWidth;
+        const naturalHeight = imgElement.naturalHeight;
+        const displayedWidth = imgElement.clientWidth;
+        const displayedHeight = imgElement.clientHeight;
+    
+        const scaleX = displayedWidth / naturalWidth;
+        const scaleY = displayedHeight / naturalHeight;
+    
+        const scaledCoordinates = {
+            scaledX1: btn.x1 ? btn.x1 * scaleX : null,
+            scaledY1: btn.y1 ? btn.y1 * scaleY : null,
+            scaledX2: btn.x2 ? btn.x2 * scaleX : null,
+            scaledY2: btn.y2 ? btn.y2 * scaleY : null,
+        };
+    
+        return scaledCoordinates;
+    };
+
     return (
         <Modal
             open={isLightingModalOpen}
@@ -367,7 +389,7 @@ const LightingModal = ({ selectedLightingOda, isLightingModalOpen, setIsLighting
                                                 const buttonColor = device.status === 'No' ? 'green' : 'red';
                                                 const lineColor = device.status === 'No' ? 'green' : 'red';
                                                 const isSelected = selectedDevice && selectedDevice.name === device.name && selectedDevice.address === device.address;
-
+                                                const scaledCoordinates = handleGetScaledCoordinates(btn, imgRef);
                                                 return (
                                                     <React.Fragment key={`${index}-${btnIndex}`}>
                                                         {btn.x2 === "" && btn.y2 === "" && (
@@ -379,8 +401,8 @@ const LightingModal = ({ selectedLightingOda, isLightingModalOpen, setIsLighting
                                                                 <Box
                                                                     sx={{
                                                                         position: 'absolute',
-                                                                        top: `${btn.y1}px`,
-                                                                        left: `${btn.x1}px`,
+                                                                        top: `${scaledCoordinates.scaledY1}px`,
+                                                                        left: `${scaledCoordinates.scaledX1}px`,
                                                                         width: '15px',
                                                                         height: '15px',
                                                                         backgroundColor: buttonColor,
@@ -406,10 +428,10 @@ const LightingModal = ({ selectedLightingOda, isLightingModalOpen, setIsLighting
                                                                 }}
                                                             >
                                                                 <line
-                                                                    x1={btn.x1}
-                                                                    y1={btn.y1}
-                                                                    x2={btn.x2}
-                                                                    y2={btn.y2}
+                                                                    x1={scaledCoordinates.scaledX1}
+                                                                    y1={scaledCoordinates.scaledY1}
+                                                                    x2={scaledCoordinates.scaledX2}
+                                                                    y2={scaledCoordinates.scaledY2}
                                                                     stroke={lineColor}
                                                                     strokeWidth={4}
                                                                     onClick={() => handleButtonClick(device)}
@@ -420,8 +442,8 @@ const LightingModal = ({ selectedLightingOda, isLightingModalOpen, setIsLighting
                                                                         stroke: isSelected ? 'white' : lineColor,}}
                                                                 />
                                                                 <circle
-                                                                    cx={btn.x1}
-                                                                    cy={btn.y1}
+                                                                    cx={scaledCoordinates.scaledX1}
+                                                                    cy={scaledCoordinates.scaledY1}
                                                                     r="7"
                                                                     fill={lineColor}
                                                                     onClick={() => handleButtonClick(device)}
@@ -433,8 +455,8 @@ const LightingModal = ({ selectedLightingOda, isLightingModalOpen, setIsLighting
                                                                     }}
                                                                 />
                                                                 <circle
-                                                                    cx={btn.x2}
-                                                                    cy={btn.y2}
+                                                                    cx={scaledCoordinates.scaledX2}
+                                                                    cy={scaledCoordinates.scaledY2}
                                                                     r="7"
                                                                     fill={lineColor}
                                                                     onClick={() => handleButtonClick(device)}

@@ -358,6 +358,8 @@ const handleLogout = () => {
                 {isRouteAllowed("/reports") && (
                   <Route path="/reports" element={<Reports weatherData={weatherData} dateData={dateData} setActiveLink={setActiveLink}/>} />
                 )}
+                {/* Geçersiz Rotayı Ana Sayfaya Yönlendir */}
+                <Route path="*" element={<Navigate to="/home" />} />
               </Routes>
             </div>  
             ) : (
