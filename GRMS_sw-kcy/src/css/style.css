@@ -1,0 +1,12 @@
+/* Modal animasyon için başlangıç stili */
+.modal.fade .modal-dialog {
+    transform: scale(0.9); /* Modal'ı biraz küçült */
+    opacity: 0; /* Modal'ı görünmez yap */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Animasyon geçiş süreleri */
+  }
+  
+  /* Modal görünür hale geldiğinde */
+  .modal.show .modal-dialog {
+    transform: scale(1); /* Modal'ı normal boyutuna getir */
+    opacity: 1; /* Modal'ı görünür yap */
+  }
