@@ -98,7 +98,7 @@ const Navbar = ({ activeLink, setActiveLink, roomServiceAlarmNumber, totalAlarms
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
-          <ul className="navbar-nav text-center" style={{ paddingInline: '20px', overflow: 'hidden'}}>
+          <ul className="navbar-nav text-center" style={{ paddingInline: '20px', overflow: 'visible'}}>
 
             {/* Home is always visible */}
             <li className="nav-item">

@@ -53,7 +53,7 @@
   
   "_comment": "LogoComponent",
   "adminLogoComponentLogoWidth": 200,
-  "adminLogoComponentLogoHeight": 100,
+  "adminLogoComponentLogoHeight": 80,
   "adminLogoComponentHideLogo": false,
 
   "_comment": "Dashboard",
@@ -287,11 +287,11 @@
   "adminAlarmTableHeaderFontFamily": "Poppins",
   "adminAlarmTableHeaderFontSize": 24,
   "adminAlarmTableHeaderFontColor": "#ffffffff",
-  "adminAlarmTableHeaderMalfunctionText": "Malfunction",
+  "adminAlarmTableHeaderMalfunctionText": "Room",
   "adminAlarmTableHeaderIncidentTimeText": "Incident Time",
   "adminAlarmTableHeaderCategoryText": "Category",
-  "adminAlarmTableHeaderAcknowledgementText": "Acknowledgement",
-  "adminAlarmTableHeaderAckTimeText": "Ack Time",
+  "adminAlarmTableHeaderAcknowledgementText": "Ack",
+  "adminAlarmTableHeaderAckTimeText": "Acknowledgement Time",
   "adminAlarmTableHeaderStatusText": "Status",
   "adminAlarmTableHeaderMoreDetailsText": "Details",
 
@@ -316,7 +316,7 @@
   "adminRoomServicesTableHeaderRoomIdText": "Room Number",
   "adminRoomServicesTableHeaderDelayCategoryText": "Delayed",
   "adminRoomServicesTableHeaderActivationText": "Activation",
-  "adminRoomServicesTableHeaderAcknowledgementText": "Acknowledgement",
+  "adminRoomServicesTableHeaderAcknowledgementText": "Ack",
   "adminRoomServicesTableHeaderAckTimeText": "Acknowledgement Time",
   "adminRoomServicesTableHeaderStatusText": "Status",
   "adminRoomServicesTableHeaderMoreDetailsText": "Room Details",

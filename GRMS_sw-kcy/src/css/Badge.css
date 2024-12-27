@@ -17,6 +17,8 @@
   border-width: 1px; /* border kalınlığı */
   border-style: solid;
   font-family: 'Poppins';
+  z-index: 9999;
+  overflow: "visible";
 }
 
 /* Badge.css */

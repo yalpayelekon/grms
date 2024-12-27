@@ -256,7 +256,7 @@ const AlarmsTableRows = ({ page, rowsPerPage, order, orderBy, data }) => {
 
             <TableCell
                 sx={{color: adminAlarmsTableRowsIncidentTimeTextColor ,fontSize: "18px",textAlign: "center",position: "relative"}}>
-                <div style={{ position: "absolute", left: "50px", top: "10px", textAlign: "center" }}>
+                <div style={{ textAlign: "center" }}>
                     {formatDateTimeForUI(row.incidentTime)}
                 </div>
             </TableCell>
@@ -314,7 +314,7 @@ const AlarmsTableRows = ({ page, rowsPerPage, order, orderBy, data }) => {
             </TableCell>
             <TableCell
                 sx={{color: adminAlarmsTableRowsAckTimeTextColor,fontSize: "18px",textAlign: "center",position: "relative"}}>
-                <div style={{ position: "absolute", left: "30px", top: "10px", textAlign: "center" }}>
+                <div style={{ textAlign: "center" }}>
                     {row.acknowledgement === "Waiting Ack." ? "" : formatDateTimeForUI(row.ackTime)}
                 </div>
             </TableCell>

@@ -48,7 +48,7 @@ const TableHeader = ({ order, orderBy, onRequestSort }) => {
                     <TableCell
                         key={headCell.id}
                         sortDirection={orderBy === headCell.id ? order : false}
-                        sx={cellStyle}
+                        sx={{...cellStyle, textAlign: 'center'}}
                     >
                         {headCell.sortable ? (
                             <TableSortLabel
