@@ -1,32 +1,4 @@
-# Python Bytecode
-__pycache__/
-*.py[cod]
+/venv
+./venv
 
-# Virtual Environment
-venv/
-env/
-ENV/
-.venv/
-.venv/*
-
-# Django specific
-*.sqlite3
-db.sqlite3
-*.log
-media/
-staticfiles/
-
-# IDE specific files
-.vscode/
-.idea/
-
-# Miscellaneous
-*.DS_Store
-*.env
-*.pkl
-*.egg-info/
-dist/
-build/
-
-# Ignore Jupyter Notebook checkpoints
-.ipynb_checkpoints/
+venv
