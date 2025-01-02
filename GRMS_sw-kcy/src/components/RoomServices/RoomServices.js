@@ -6,14 +6,14 @@ import TempDate from '../CommonComponents/TemperatureDate'
 import { PieChart } from '@mui/x-charts/PieChart';
 import { Typography, Box } from '@mui/material';
 
-import filterIcon from '../../icons/generic/filterIcon.png';
+import filterIcon from '../../assets/icons/generic/filterIcon.png';
 import TableComponent from "./TableComponent";
 import CheckmarksFilter from "../CommonComponents/CheckmarksFilter";
 import GaugeChartComponent from '../CommonComponents/GaugeChartComponent';
 
 import LogoComponent from '../CommonComponents/LogoComponent';
 
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
 
 function RoomServices({ weatherData, dateData, setActiveLink, roomServiceData, fetchRoomServiceData, averageResponseTimeGauge, averageResponseTime, averageServiceTimeGauge, averageServiceTime, serviceRequestData, fetchDashboardServiceRequestData}) {
 

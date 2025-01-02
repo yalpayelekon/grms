@@ -2,16 +2,16 @@ import { useState, useEffect } from "react";
 import {TableBody, TableRow, TableCell, Chip, Box, Typography, Modal} from "@mui/material";
 import PropTypes from "prop-types";
 import { useMediaQuery } from '@mui/material';
-import moreDetailsIcon from "../../icons/roomServices/more-details/moreDetails.png";
-import laundryIcon from "../../icons/roomServices/delay-category/laundry.png";
-import murIcon from "../../icons/roomServices/delay-category/MUR.png";
-import waitingAckIcon from "../../icons/roomServices/acknowledgement/waiting.png";
-import alertIcon from "../../icons/roomServices/status-icons/error.png";
-import successIcon from "../../icons/roomServices/status-icons/success.png";
-import statusAlertIcon from "../../icons/roomServices/status-icons/error-Resp.png";
+import moreDetailsIcon from "../../assets/icons/roomServices/more-details/moreDetails.png";
+import laundryIcon from "../../assets/icons/roomServices/delay-category/laundry.png";
+import murIcon from "../../assets/icons/roomServices/delay-category/MUR.png";
+import waitingAckIcon from "../../assets/icons/roomServices/acknowledgement/waiting.png";
+import alertIcon from "../../assets/icons/roomServices/status-icons/error.png";
+import successIcon from "../../assets/icons/roomServices/status-icons/success.png";
+import statusAlertIcon from "../../assets/icons/roomServices/status-icons/error-Resp.png";
 import DetailsView from "../RoomServiceDetails/DetailsView";
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
-
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import config from "../../config/config.json"
 
 const RoomServicesTableRows = ({ page, rowsPerPage, order, orderBy, data }) => {
 
@@ -58,7 +58,8 @@ const RoomServicesTableRows = ({ page, rowsPerPage, order, orderBy, data }) => {
 
     // console.log("rowToUpdate:",rowToUpdate)
     if (rowToUpdate) {
-      fetch('http://localhost:8000/postRoomServicesAckData/', { 
+      const url = `${config.apiBaseUrl}${config.endpoints.postRoomServicesAckData}`;
+      fetch(url, { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -114,8 +115,8 @@ const RoomServicesTableRows = ({ page, rowsPerPage, order, orderBy, data }) => {
     const blokNumber = row.blokNumarasi;
     const katNumber = row.katNumarasi;
     const oda_number = row.roomId;
-
-    const url = `http://localhost:8000/getRoomDetailsData/${blokNumber}/${katNumber}/${oda_number}/`;
+    
+    const url = `${config.apiBaseUrl}${config.endpoints.getRoomDetailsData}${blokNumber}/${katNumber}/${oda_number}/`;
     fetch(url)
       .then(res => {
         return res.json();

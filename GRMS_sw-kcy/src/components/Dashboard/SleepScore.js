@@ -3,10 +3,10 @@ import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import StarIcon from '@mui/icons-material/Star';
 
-import staricon from '../../icons/dashboard/SleepScore/staricon.png';
-import sleepscoreicon from '../../icons/dashboard/SleepScore/sleepscoreicon.png';
+import staricon from '../../assets/icons/dashboard/SleepScore/staricon.png';
+import sleepscoreicon from '../../assets/icons/dashboard/SleepScore/sleepscoreicon.png';
 
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
 
 const SleepScore = () => {
 

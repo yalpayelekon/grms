@@ -22,7 +22,7 @@ def debug_task(self):
 
 beat_schedule = {
     'listen_tcp_connection-10.11.10.114-every-10-second': {
-        'task': 'tridiumBackendApp.tasks.listen_tcp_connection_v2',
+        'task': 'tridiumBackendApp.tasks_file.tasks.listen_tcp_connection_v2',
         'schedule': 10, 
         'args': ('10.11.10.114', 5556),
     },

@@ -7,12 +7,13 @@ import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 import PropTypes from "prop-types";
 
-import pdfIcon from '../../icons/reports/PDF.png';
-import csvIcon from '../../icons/reports/CSV.png';
-import xlsxIcon from '../../icons/reports/XLS.png';
+import pdfIcon from '../../assets/icons/reports/PDF.png';
+import csvIcon from '../../assets/icons/reports/CSV.png';
+import xlsxIcon from '../../assets/icons/reports/XLS.png';
 
 import Swal from 'sweetalert2';
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import config from "../../config/config.json"
 
 const AlarmReportButtons = ({ dateRange, reportName, downloadName }) => {
 
@@ -236,7 +237,7 @@ const AlarmReportButtons = ({ dateRange, reportName, downloadName }) => {
   };
 
   const fetchReportsData = (dateRange, reportName) => {
-    const url = `http://localhost:8000/getReportsData/${dateRange}/${reportName}/`;
+    const url = `${config.apiBaseUrl}${config.endpoints.getReportsData}${dateRange}/${reportName}/`;
 
     return fetch(url)
         .then(res => res.json())

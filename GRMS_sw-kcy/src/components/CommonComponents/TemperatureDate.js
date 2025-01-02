@@ -1,8 +1,8 @@
-import seaWaterIcon from '../../icons/tempDate/seaWater.png';
-import locationIcon from '../../icons/tempDate/location.png';
-import temperatureIcon from '../../icons/tempDate/temperature.png';
+import seaWaterIcon from '../../assets/icons/tempDate/seaWater.png';
+import locationIcon from '../../assets/icons/tempDate/location.png';
+import temperatureIcon from '../../assets/icons/tempDate/temperature.png';
 
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
 
 export default function TemperatureDate({formattedDate, formattedTime, temperature, seaTemperature}) {
 

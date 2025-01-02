@@ -1,0 +1,159 @@
+{  
+  "homePageBlokButtons":
+  [
+    { "ui_display_name": "Owner Villa", "button_name": "Owner Villalar", "x_coordinate": 340, "y_coordinate": 229, "active": true },
+    { "ui_display_name": "5200 East", "button_name": "5200 Doğu", "x_coordinate": 285, "y_coordinate": 300, "active": true },
+    { "ui_display_name": "5900", "button_name": "5900", "x_coordinate": 235, "y_coordinate": 380, "active": true },
+    { "ui_display_name": "5800", "button_name": "5800", "x_coordinate": 175, "y_coordinate": 448, "active": true },
+    { "ui_display_name": "A Block", "button_name": "A", "x_coordinate": 529, "y_coordinate": 370, "active": true },
+    { "ui_display_name": "Indoor Pool - SPA", "button_name": "Kapalı Havuz SPA", "x_coordinate": 551, "y_coordinate": 452, "active": false },
+    { "ui_display_name": "General Area", "button_name": "Genel Mahal", "x_coordinate": 910, "y_coordinate": 401, "active": false },
+    { "ui_display_name": "F Block", "button_name": "F", "x_coordinate": 1198, "y_coordinate": 401, "active": true },
+    { "ui_display_name": "Convention Center", "button_name": "Convention Center", "x_coordinate": 29, "y_coordinate": 591, "active": false },
+    { "ui_display_name": "Fitness", "button_name": "Fitness", "x_coordinate": 525, "y_coordinate": 561, "active": false },
+    { "ui_display_name": "Gogi Kids Club", "button_name": "Gogi Kids Club", "x_coordinate": 1000, "y_coordinate": 684, "active": false },
+    { "ui_display_name": "5200 West", "button_name": "5200 Batı", "x_coordinate": 1200, "y_coordinate": 272, "active": true },
+    { "ui_display_name": "5300", "button_name": "5300", "x_coordinate": 1365, "y_coordinate": 305, "active": true },
+    { "ui_display_name": "5500", "button_name": "5500", "x_coordinate": 1450, "y_coordinate": 330, "active": false },
+    { "ui_display_name": "5600", "button_name": "5600", "x_coordinate": 1506, "y_coordinate": 376, "active": false },
+    { "ui_display_name": "5700", "button_name": "5700", "x_coordinate": 1574, "y_coordinate": 441, "active": false },
+    { "ui_display_name": "5000", "button_name": "5000", "x_coordinate": 1505, "y_coordinate": 501, "active": true },
+    { "ui_display_name": "5100", "button_name": "5100", "x_coordinate": 1598, "y_coordinate": 542, "active": true },
+    { "ui_display_name": "Gogi Fun Jungle", "button_name": "Gogi Fun Jungle", "x_coordinate": 1465, "y_coordinate": 629, "active": false }
+  ],
+  "polyPointsData":[
+    {
+      "points": [
+        { "x": 322, "y": 168 },
+        { "x": 630, "y": 173 },
+        { "x": 222, "y": 527 },
+        { "x": 55, "y": 521 }
+      ],
+      "fill": "#86CCFF80"
+    },
+    {
+      "points": [
+        { "x": 600, "y": 283 },
+        { "x": 730, "y": 287 },
+        { "x": 692, "y": 409 },
+        { "x": 394, "y": 405 },
+        { "x": 464, "y": 317 },
+        { "x": 583, "y": 320 }
+      ],
+      "fill": "#49EEBE80"
+    },
+    {
+      "points": [
+        { "x": 705, "y": 368 },
+        { "x": 797, "y": 373 },
+        { "x": 725, "y": 471 },
+        { "x": 522, "y": 471 },
+        { "x": 557, "y": 408 },
+        { "x": 690, "y": 411 }
+      ],
+      "fill": "#AEAEFF80"
+    },
+    {
+      "points": [
+        { "x": 719, "y": 329 },
+        { "x": 1094, "y": 346 },
+        { "x": 1103, "y": 424 },
+        { "x": 1164, "y": 450 },
+        { "x": 1040, "y": 513 },
+        { "x": 897, "y": 432 },
+        { "x": 903, "y": 378 },
+        { "x": 874, "y": 378 },
+        { "x": 872, "y": 408 },
+        { "x": 817, "y": 407 },
+        { "x": 823, "y": 375 },
+        { "x": 705, "y": 368 }
+      ],
+      "fill": "#FFD55B80"
+    },
+    {
+      "points": [
+        { "x": 1051, "y": 303 },
+        { "x": 1177, "y": 304 },
+        { "x": 1190, "y": 348 },
+        { "x": 1318, "y": 352 },
+        { "x": 1351, "y": 405 },
+        { "x": 1340, "y": 460 },
+        { "x": 1164, "y": 450 },
+        { "x": 1103, "y": 424 },
+        { "x": 1094, "y": 346 },
+        { "x": 1057, "y": 346 }
+      ],
+      "fill": "#BB0BBF80"
+    },
+    {
+      "points": [
+        { "x": 69, "y": 535 },
+        { "x": 300, "y": 545 },
+        { "x": 240, "y": 632 },
+        { "x": 347, "y": 632 },
+        { "x": 290, "y": 724 },
+        { "x": 17, "y": 724 },
+        { "x": 5, "y": 718 },
+        { "x": 3, "y": 716 },
+        { "x": 1, "y": 705 },
+        { "x": 0, "y": 654 },
+        { "x": 35, "y": 613 },
+        { "x": 0, "y": 607 },
+        { "x": 0, "y": 598 }
+      ],
+      "fill": "#51E85A80"
+    },
+    {
+      "points": [
+        { "x": 536, "y": 530 },
+        { "x": 612, "y": 534 },
+        { "x": 593, "y": 578 },
+        { "x": 517, "y": 572 }
+      ],
+      "fill": "#8DBD0680"
+    },
+    {
+      "points": [
+        { "x": 864, "y": 725 },
+        { "x": 1132, "y": 570 },
+        { "x": 1268, "y": 635 },
+        { "x": 1187, "y": 725 }
+      ],
+      "fill": "#24C1D480"
+    },
+    {
+      "points": [
+        { "x": 1145, "y": 241 },
+        { "x": 1223, "y": 239 },
+        { "x": 1330, "y": 241 },
+        { "x": 1485, "y": 273 },
+        { "x": 1629, "y": 358 },
+        { "x": 1750, "y": 488 },
+        { "x": 1750, "y": 626 },
+        { "x": 1559, "y": 724 },
+        { "x": 1346, "y": 724 },
+        { "x": 1388, "y": 628 },
+        { "x": 1483, "y": 501 },
+        { "x": 1422, "y": 387 },
+        { "x": 1288, "y": 335 },
+        { "x": 1186, "y": 296 }
+      ],
+      "fill": "#86CCFF80"
+    }
+  ],
+  "categoryNamesBlokKatMap": {
+    "A": ["1", "2", "3", "4"],
+    "F": ["1", "2", "3", "4"],
+    "Owner Villalar": ["Zemin"],
+    "5000": ["Zemin"],
+    "5100": ["Zemin"],
+    "5200 Batı": ["Zemin"],
+    "5200 Doğu": ["Zemin"],
+    "5300": ["Zemin"],
+    "5800": ["Zemin"],
+    "5900": ["Zemin"],
+    "A-F Yatak Kat Koridor": ["Zemin", "1", "2", "3"],
+    "Çevre Aydınlatma": ["Zemin"]
+  }
+
+}

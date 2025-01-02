@@ -47,7 +47,7 @@ urlpatterns = [
     path('setOutputDeviceActualLevel/', controllerViews.setOutputDeviceActualLevel, name="setOutputDeviceActualLevel"),
     path('setControllerComError/', controllerViews.setControllerComError, name="setControllerComError"),
     path('updateRCUModbusTermostatT9600Data/', controllerViews.updateRCUModbusTermostatT9600Data, name="updateRCUModbusTermostatT9600Data"),
-    path('putControllerActualLevelData/<str:blokNumarasi>/<str:katNumarasi>/<str:odaNumarasi>/<str:ip>', controllerViews.putControllerActualLevelData, name="putControllerActualLevelData"),
+    path('putControllerActualLevelData/<str:ip>', controllerViews.putControllerActualLevelData, name="putControllerActualLevelData"),
     path('updateRoomServicesMURData/', controllerViews.updateRoomServicesMURData, name="updateRoomServicesMURData"),
     path('putRoomStatusHVACData/<str:blokNumarasi>/<str:katNumarasi>/<str:odaNumarasi>', controllerViews.putRoomStatusHVACData, name="putRoomStatusHVACData"),
 

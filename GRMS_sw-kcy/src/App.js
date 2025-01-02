@@ -12,7 +12,8 @@ import RoomServices from './components/RoomServices/RoomServices';
 import Reports from './components/Reports/Reports';
 import Login from './components/MainComponents/Login';
 
-import UISettingsData from './jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from './assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import config from "./config/config.json";  // JSON dosyasını içe aktarın
 
 function App() {
 
@@ -44,7 +45,7 @@ function App() {
   const [blokKatAlarmNumberData, setBlokKatAlarmNumberData] = useState(); // bloklar ve katlarda ki alarm sayisini gosterir
 
   const getTemperatureData = () => { 
-    const url = `http://localhost:8000/getTemperatureData/`;
+    const url = `${config.apiBaseUrl}${config.endpoints.getTemperatureData}`;
     fetch(url)
         .then(res => {
         return res.json();
@@ -63,7 +64,7 @@ function App() {
   };
 
   const getSeaTemperatureData = () => { 
-    const url = `http://localhost:8000/getSeaTemperatureData/`;
+    const url = `${config.apiBaseUrl}${config.endpoints.getSeaTemperatureData}`;
     fetch(url)
         .then(res => {
         return res.json();
@@ -107,7 +108,8 @@ function App() {
   };
 
   const fetchRoomServiceData = () => {
-    fetch("http://localhost:8000/getRoomServicesData")
+    const url = `${config.apiBaseUrl}${config.endpoints.getRoomServicesData}`;
+    fetch(url)
       .then(res => {
         return res.json();
       })
@@ -128,7 +130,8 @@ function App() {
   };
 
   const fetchDashboardServiceRequestData = () => {
-    fetch("http://localhost:8000/getDashboardServiceRequestData")
+    const url = `${config.apiBaseUrl}${config.endpoints.getDashboardServiceRequestData}`;
+    fetch(url)
       .then(res => {
         return res.json();
       })
@@ -170,7 +173,8 @@ function App() {
     };
 
   const fetchDashboardAlarmStatusData = () => {
-    fetch("http://localhost:8000/getDashboardAlarmStatusData")
+    const url = `${config.apiBaseUrl}${config.endpoints.getDashboardAlarmStatusData}`;
+    fetch(url)
       .then(res => {
         return res.json();
       })
@@ -187,7 +191,8 @@ function App() {
   };
 
   const fetchAlarmsData = () => {
-    fetch("http://localhost:8000/getAlarmsData")
+    const url = `${config.apiBaseUrl}${config.endpoints.getAlarmsData}`;
+    fetch(url)
       .then(res => {
         return res.json();
       })
@@ -214,27 +219,27 @@ function App() {
 
     // Temperature data
     getTemperatureData();
-    const temperatureIntervalId = setInterval(getTemperatureData, 3600000);  // 1 hours
+    const temperatureIntervalId = setInterval(getTemperatureData, config.intervalTimes.getTemperatureData);
 
     // Sea Temperature data
     getSeaTemperatureData();
-    const seaTemperatureIntervalId = setInterval(getSeaTemperatureData, 3600000);  // 1 hours
+    const seaTemperatureIntervalId = setInterval(getSeaTemperatureData, config.intervalTimes.getSeaTemperatureData);
     
     // room service data
     fetchRoomServiceData();
-    const roomServiceIntervalId = setInterval(fetchRoomServiceData, 60000);    // kcy 5000 olsun
+    const roomServiceIntervalId = setInterval(fetchRoomServiceData, config.intervalTimes.getRoomServicesData);
     
     // dashboard service request data
     fetchDashboardServiceRequestData();
-    const dashboardServiceRequestIntervalId = setInterval(fetchDashboardServiceRequestData, 60000); // kcy 5000 olsun
+    const dashboardServiceRequestIntervalId = setInterval(fetchDashboardServiceRequestData, config.intervalTimes.getDashboardServiceRequestData);
     
     // dashboard alarm status data
     fetchDashboardAlarmStatusData();
-    const dashboardAlarmStatusIntervalId = setInterval(fetchDashboardAlarmStatusData, 60000); // kcy 5000 olsun 
+    const dashboardAlarmStatusIntervalId = setInterval(fetchDashboardAlarmStatusData, config.intervalTimes.getDashboardAlarmStatusData);
 
     // navbar alarms
     fetchAlarmsData();
-    const alarmsIntervalId = setInterval(fetchAlarmsData, 60000); // kcy 5000 olsun 
+    const alarmsIntervalId = setInterval(fetchAlarmsData, config.intervalTimes.getAlarmsData);
 
     // Cleanup on unmount
     return () => {

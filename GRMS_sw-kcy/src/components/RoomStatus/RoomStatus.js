@@ -14,17 +14,20 @@ import MekanikModal from "./Mekanik/MekanikModal";
 import LightingModal from "./Lighting/LightingModal";
 import HKModal from "./HK/HKModal";
 
-import filterIcon from '../../icons/generic/filterIcon.png';
-import greenadamvaliz from '../../icons/roomStatus/greenadamvaliz.png';
-import greenhousekeeping from '../../icons/roomStatus/greenhousekeeping.png';
-import greenvaliz from '../../icons/roomStatus/greenvaliz.png';
-import whitehousekeeping from '../../icons/roomStatus/whitehousekeeping.png';
-import white from '../../icons/roomStatus/white.png';
-import onlyRed from '../../icons/roomStatus/onlyRed.png';
+import filterIcon from '../../assets/icons/generic/filterIcon.png';
+import greenadamvaliz from '../../assets/icons/roomStatus/greenadamvaliz.png';
+import greenhousekeeping from '../../assets/icons/roomStatus/greenhousekeeping.png';
+import greenvaliz from '../../assets/icons/roomStatus/greenvaliz.png';
+import whitehousekeeping from '../../assets/icons/roomStatus/whitehousekeeping.png';
+import white from '../../assets/icons/roomStatus/white.png';
+import onlyRed from '../../assets/icons/roomStatus/onlyRed.png';
 
 import LogoComponent from '../CommonComponents/LogoComponent';
 
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import config from "../../config/config.json"
+import UISettingsRoomStatus from '../../assets/jsonFiles/UISettingsAnaSayfaRoomStatus.json'; // JSON dosyasını import ettik
+
 
 function RoomStatus({ setActiveLink, blokKatAlarmNumberData }) {
     
@@ -53,20 +56,22 @@ function RoomStatus({ setActiveLink, blokKatAlarmNumberData }) {
     const initialBlokNumarasi = location.state?.blokNumarasi || "A"; // URL durumundan blokNumarasi alınır veya varsayılan "A" kullanılır
     // console.log("initialBlokNumarasi: ",initialBlokNumarasi)
 
-    const categoryNamesBlokKatMap = {
-        "A": ['1', '2', '3', '4'], // Blok A için kat seçenekleri
-        "F": ['1', '2', '3', '4'], // Blok F için kat seçenekleri
-        "Owner Villalar": ['Zemin'], // Owner Villalar için kat seçenekleri
-        "5000": ['Zemin'],                  
-        "5100": ['Zemin'],
-        "5200 Batı": ['Zemin'],
-        "5200 Doğu": ['Zemin'],     
-        "5300": ['Zemin'],                  
-        "5800": ['Zemin'],                  
-        "5900": ['Zemin'],                            
-        "A-F Yatak Kat Koridor": ["Zemin", '1', '2', '3'],   
-        "Çevre Aydınlatma": ['Zemin']
-    };
+    const categoryNamesBlokKatMap = UISettingsRoomStatus.categoryNamesBlokKatMap;
+
+    // const categoryNamesBlokKatMap = {
+    //     "A": ['1', '2', '3', '4'], // Blok A için kat seçenekleri
+    //     "F": ['1', '2', '3', '4'], // Blok F için kat seçenekleri
+    //     "Owner Villalar": ['Zemin'], // Owner Villalar için kat seçenekleri
+    //     "5000": ['Zemin'],                  
+    //     "5100": ['Zemin'],
+    //     "5200 Batı": ['Zemin'],
+    //     "5200 Doğu": ['Zemin'],     
+    //     "5300": ['Zemin'],                  
+    //     "5800": ['Zemin'],                  
+    //     "5900": ['Zemin'],                            
+    //     "A-F Yatak Kat Koridor": ["Zemin", '1', '2', '3'],   
+    //     "Çevre Aydınlatma": ['Zemin']
+    // };
     const categoryNamesBlok = Object.keys(categoryNamesBlokKatMap) 
 
     const OPACITY_VALUE = 0.05;
@@ -116,7 +121,7 @@ function RoomStatus({ setActiveLink, blokKatAlarmNumberData }) {
     const [isGenelMahal, setIsGenelMahal] = useState("0");
 
     // Resimleri dinamik olarak yüklemek için require.context
-    const images = require.context('../../../config', false, /\.png$/);
+    const images = require.context('../../assets/engineering', false, /\.png$/);
 
     const getImage = (blok, kat, oda) => {
         const imageName = `blok_${blok}_kat_${kat}_oda_${oda}.png`;
@@ -134,7 +139,8 @@ function RoomStatus({ setActiveLink, blokKatAlarmNumberData }) {
         const odaNumarasi = oda_number;
     
         // tridiumBackend'den veri okuma
-        const url = `http://127.0.0.1:8000/getRoomStatusOutputDeviceData/${blokNumarasi}/${katNumarasi}/${odaNumarasi}`;
+        const url = `${config.apiBaseUrl}${config.endpoints.getRoomStatusOutputDeviceData}/${blokNumarasi}/${katNumarasi}/${odaNumarasi}`;
+        // const url = `http://127.0.0.1:8000/getRoomStatusOutputDeviceData/${blokNumarasi}/${katNumarasi}/${odaNumarasi}`;
         fetch(url)
             .then(res => res.json())
             .then(roomStatusOutputDeviceData => {
@@ -146,7 +152,7 @@ function RoomStatus({ setActiveLink, blokKatAlarmNumberData }) {
                     console.log("image", image);
     
                     // Dinamik JSON dosyasını yükleme
-                    import(`../../../config/blok_${blokNumarasi}_kat_${katNumarasi}_oda_${odaNumarasi}.json`)
+                    import(`../../assets/engineering/blok_${blokNumarasi}_kat_${katNumarasi}_oda_${odaNumarasi}.json`)
                         .then(module => {
                             const coordinatesData = module.default;
     
@@ -209,7 +215,8 @@ function RoomStatus({ setActiveLink, blokKatAlarmNumberData }) {
         const katNumber = categoryKatName
 
         // tridiumBackend den veri okuma hh
-        const url = `http://127.0.0.1:8000/getRoomStatusHVACData/${blokNumber}/${katNumber}/${oda_number}/`;
+        const url = `${config.apiBaseUrl}${config.endpoints.getRoomStatusHVACData}/${blokNumber}/${katNumber}/${oda_number}/`;
+        // const url = `http://127.0.0.1:8000/getRoomStatusHVACData/${blokNumber}/${katNumber}/${oda_number}/`;
         fetch(url)
             .then(res => {
             return res.json();
@@ -234,7 +241,8 @@ function RoomStatus({ setActiveLink, blokKatAlarmNumberData }) {
         const blokNumber = categoryBlokName
         const katNumber = categoryKatName
         setRoomNumberForHK(oda_number)
-        const url = `http://127.0.0.1:8000/getRoomDetailsData/${blokNumber}/${katNumber}/${oda_number}/`;
+        const url = `${config.apiBaseUrl}${config.endpoints.getRoomDetailsData}/${blokNumber}/${katNumber}/${oda_number}/`;
+        //const url = `http://127.0.0.1:8000/getRoomDetailsData/${blokNumber}/${katNumber}/${oda_number}/`;
         fetch(url)
             .then(res => {
             return res.json();
@@ -486,7 +494,9 @@ function RoomStatus({ setActiveLink, blokKatAlarmNumberData }) {
         const katNumber = categoryKatName
     
         // tridiumBackend den veri okuma 
-        const url = `http://127.0.0.1:8000/getRoomStatusData/${blokNumber}/${katNumber}/`;
+        const url = `${config.apiBaseUrl}${config.endpoints.getRoomStatusData}/${blokNumber}/${katNumber}/`;
+
+        // const url = `http://127.0.0.1:8000/getRoomStatusData/${blokNumber}/${katNumber}/`;
         fetch(url)
             .then(res => {
             return res.json();
@@ -516,7 +526,7 @@ function RoomStatus({ setActiveLink, blokKatAlarmNumberData }) {
         setActiveLink('roomStatus');
         
         getRoomStatusDataFromDB();
-        const intervalId = setInterval(getRoomStatusDataFromDB, 5000);
+        const intervalId = setInterval(getRoomStatusDataFromDB, config.intervalTimes.getRoomStatusData);
 
         return () => clearInterval(intervalId);
         

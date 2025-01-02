@@ -13,7 +13,7 @@ import WelcomeMessage from '../CommonComponents/WelcomeMessage';
 import LogoComponent from '../CommonComponents/LogoComponent';
 import SleepScore from './SleepScore';
 
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
 
 const Dashboard = ({ weatherData, dateData, setActiveLink, averageResponseTimeGauge, averageResponseTime, averageServiceTimeGauge, averageServiceTime, serviceRequestData, fetchDashboardServiceRequestData, alarmStatustData, fetchDashboardAlarmStatusData, alarmsAccessInfo, username }) => {
   

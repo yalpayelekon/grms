@@ -2,12 +2,22 @@
 import React, { useState} from 'react';
 import { Form, ButtonGroup, Button, Row, Col, ToggleButton, InputGroup } from 'react-bootstrap';
 import { tridiumBackend2Fronend } from './mekanikDataConversion.js';
+import UISettingsData from '../../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
 
 function ControlPanel({ selectedHVACOda, updateRoomData }) {
 
-  const oda = selectedHVACOda.roomStatusHVACData
+  const adminControlPanelFontFamily = UISettingsData.adminControlPanelFontFamily || "Poppins";
+  const adminControlPanelOnColor = UISettingsData.adminControlPanelOnColor || '#49796Bff';
+  const adminControlPanelOffColor = UISettingsData.adminControlPanelOffColor || "#C75861ff";
+  const adminControlPanelGeneralColor = UISettingsData.adminControlPanelGeneralColor || "#535356ff"
+  const adminControlPanelHeatColor = UISettingsData.adminControlPanelHeatColor || "#E72636ff"
+  const adminControlPanelCoolColor = UISettingsData.adminControlPanelCoolColor || "#027AD4ff"
 
+  const oda = selectedHVACOda.roomStatusHVACData
+  
   const [onOf, setOnOf] = useState(tridiumBackend2Fronend["onOf"]["num2str"][oda.onOf]);
+  const [isEditable, setIsEditable] = useState(onOf === tridiumBackend2Fronend["onOf"]["num2str"][1]); // If "onOf" is 1 (on), set editable to true, otherwise false
+  
   const [setPoint, setSetTemperature] = useState(oda.setPoint);
   const [roomTemperature, setRoomTemperature] = useState(oda.roomTemperature);
   const [mode, setMode] = useState(tridiumBackend2Fronend["mode"]["num2str"][oda.mode]);
@@ -96,7 +106,7 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
         style={{
           fontWeight: '600',
           fontSize: '16px',
-          fontFamily: "Poppins"
+          fontFamily: adminControlPanelFontFamily
         }}
       >
         On Off:
@@ -106,10 +116,10 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
         <ButtonGroup>
           <Button 
             style={{
-              backgroundColor: onOf === tridiumBackend2Fronend["onOf"]["num2str"][1] ? '#49796B' : '#FFFFFF', 
-              color: onOf === tridiumBackend2Fronend["onOf"]["num2str"][1] ? '#FFFFFF' : '#49796B', 
-              borderColor: '#49796B', // Border color matching background color
-              fontFamily: "Poppins",
+              backgroundColor: onOf === tridiumBackend2Fronend["onOf"]["num2str"][1] ? adminControlPanelOnColor : '#FFFFFF', 
+              color: onOf === tridiumBackend2Fronend["onOf"]["num2str"][1] ? '#FFFFFF' : adminControlPanelOnColor, 
+              borderColor: adminControlPanelOnColor, // Border color matching background color
+              fontFamily: adminControlPanelFontFamily,
               fontWeight: "bold",
               fontSize: "14px"
             }}
@@ -118,10 +128,10 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
           </Button>
           <Button 
             style={{
-              backgroundColor: onOf === tridiumBackend2Fronend["onOf"]["num2str"][0] ? '#C75861' : '#FFFFFF', 
-              color: onOf === tridiumBackend2Fronend["onOf"]["num2str"][0] ? '#FFFFFF' : '#C75861', 
-              borderColor: '#C75861', // Border color matching background color
-              fontFamily: "Poppins",
+              backgroundColor: onOf === tridiumBackend2Fronend["onOf"]["num2str"][0] ? adminControlPanelOffColor : '#FFFFFF', 
+              color: onOf === tridiumBackend2Fronend["onOf"]["num2str"][0] ? '#FFFFFF' : adminControlPanelOffColor, 
+              borderColor: adminControlPanelOffColor, // Border color matching background color
+              fontFamily: adminControlPanelFontFamily,
               fontWeight: "bold",
               fontSize: "14px"
             }}
@@ -139,7 +149,7 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
             style={{
               fontWeight: '600',
               fontSize: '16px',
-              fontFamily: "Poppins"
+              fontFamily: adminControlPanelFontFamily
             }}
           >
             Set Point:
@@ -149,11 +159,12 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
               type="number"
               value={setPoint}
               onChange={handleSetTemperatureChange}
-              style={{ width: '15px', borderColor: "#535356" }} 
+              style={{ width: '15px', borderColor: adminControlPanelGeneralColor }}
+              disabled={!isEditable} 
             />
             <InputGroup.Text
               style={{
-                backgroundColor: '#535356',  // Sets the background color to blue
+                backgroundColor: adminControlPanelGeneralColor,  // Sets the background color to blue
                 color: 'white',           // Sets the text color to white
                 border: 'none',          // Optional: Removes the border
               }}
@@ -171,7 +182,8 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
               style={{
                 fontWeight: '600',
                 fontSize: '16px',
-                fontFamily: "Poppins"
+                fontFamily: adminControlPanelFontFamily
+                
               }}
             >
               Room Temperature:
@@ -184,8 +196,9 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
               color: 'gray' , 
               pointerEvents: 'none',
               boxShadow: "none",
-              borderColor: "#535356"
+              borderColor: adminControlPanelGeneralColor
             }}
+            disabled={true} 
           />
         </Form.Group>
       </Col>
@@ -198,7 +211,7 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
               style={{
                 fontWeight: '600',
                 fontSize: '16px',
-                fontFamily: "Poppins"
+                fontFamily: adminControlPanelFontFamily
               }}
             >
               Mode:
@@ -210,16 +223,17 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
                 key={option}
                 id={`mode-${option}`}
                 type="radio"
+                disabled={!isEditable} 
                 style={{
                   backgroundColor: mode === option
                     ? option === 'Heat'
-                      ? '#E72636' // Kırmızı
+                      ? adminControlPanelHeatColor // Kırmızı
                       : option === 'Cool'
-                      ? '#027AD4' // Mavi
-                      : '#535356' // Diğer modlar için varsayılan renk
+                      ? adminControlPanelCoolColor // Mavi
+                      : adminControlPanelGeneralColor // Diğer modlar için varsayılan renk
                     : '#FFFFFF',
-                  color: mode === option ? '#FFFFFF' : '#535356', 
-                  borderColor: '#535356', // Border color matching background color
+                  color: mode === option ? '#FFFFFF' : adminControlPanelGeneralColor, 
+                  borderColor: adminControlPanelGeneralColor, // Border color matching background color
                   width: "56px"
                 }}
                 name="mode"
@@ -240,7 +254,7 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
               style={{
                 fontWeight: '600',
                 fontSize: '16px',
-                fontFamily: "Poppins"
+                fontFamily: adminControlPanelFontFamily
               }}
             >
               Fan Speed:
@@ -251,10 +265,11 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
                 key={option}
                 id={`fanMode-${option}`}
                 type="radio"
+                disabled={!isEditable} 
                 style={{
-                  backgroundColor: fanMode === option ? '#535356' : '#FFFFFF', 
-                  color: fanMode === option ? '#FFFFFF' : '#535356', 
-                  borderColor: '#535356', // Border color matching background color
+                  backgroundColor: fanMode === option ? adminControlPanelGeneralColor : '#FFFFFF', 
+                  color: fanMode === option ? '#FFFFFF' : adminControlPanelGeneralColor, 
+                  borderColor: adminControlPanelGeneralColor, // Border color matching background color
                   width: "56px"
                 }}
                 name="fanMode"
@@ -275,7 +290,7 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
         style={{
           fontWeight: '600',
           fontSize: '16px',
-          fontFamily: "Poppins"
+          fontFamily: adminControlPanelFontFamily
         }}
       >
         Confort Temperature:
@@ -288,11 +303,12 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
           value={confortTemperature}
           min="0"
           onChange={handleConfortTemperatureChange}
-          style={{ width: '15px', borderColor: "#535356" }} 
+          style={{ width: '15px', borderColor: adminControlPanelGeneralColor }} 
+          disabled={!isEditable} 
         />
         <InputGroup.Text
               style={{
-                backgroundColor: '#535356',  // Sets the background color to blue
+                backgroundColor: adminControlPanelGeneralColor,  // Sets the background color to blue
                 color: 'white',           // Sets the text color to white
                 border: 'none',          // Optional: Removes the border
               }}
@@ -308,7 +324,7 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
         style={{
           fontWeight: '600',
           fontSize: '16px',
-          fontFamily: "Poppins"
+          fontFamily: adminControlPanelFontFamily
         }}
       >
         Lower/Upper Set Points:
@@ -318,7 +334,7 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
           <InputGroup>
             <InputGroup.Text
               style={{
-                backgroundColor: '#535356',  // Sets the background color to blue
+                backgroundColor: adminControlPanelGeneralColor,  // Sets the background color to blue
                 color: 'white',           // Sets the text color to white
                 border: 'none',          // Optional: Removes the border
               }}
@@ -331,10 +347,11 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
               min="0"
               max="36"
               onChange={handleMinSetLimitChange}
+              disabled={!isEditable} 
             />
             <InputGroup.Text
               style={{
-                backgroundColor: '#535356',  // Sets the background color to blue
+                backgroundColor: adminControlPanelGeneralColor,  // Sets the background color to blue
                 color: 'white',           // Sets the text color to white
                 border: 'none',          // Optional: Removes the border
               }}
@@ -347,7 +364,7 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
           <InputGroup>
             <InputGroup.Text
               style={{
-                backgroundColor: '#535356',  // Sets the background color to blue
+                backgroundColor: adminControlPanelGeneralColor,  // Sets the background color to blue
                 color: 'white',           // Sets the text color to white
                 border: 'none',          // Optional: Removes the border
               }}
@@ -361,10 +378,11 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
               min="2"
               max="37"
               onChange={handleMaxSetLimitChange}
+              disabled={!isEditable} 
             />
             <InputGroup.Text
               style={{
-                backgroundColor: '#535356',  // Sets the background color to blue
+                backgroundColor: adminControlPanelGeneralColor,  // Sets the background color to blue
                 color: 'white',           // Sets the text color to white
                 border: 'none',          // Optional: Removes the border
               }}
@@ -380,7 +398,7 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
               style={{
                 fontWeight: '600',
                 fontSize: '16px',
-                fontFamily: "Poppins"
+                fontFamily: adminControlPanelFontFamily
               }}
             >
               Key Lock:
@@ -392,11 +410,12 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
           key={value}
           id={`key-lock-${value}`}
           type="radio"
+          disabled={!isEditable} 
           style={{
-            backgroundColor: keylockFunction === value ? '#535356' : '#FFFFFF', 
-            color: keylockFunction === value ? '#FFFFFF' : '#535356', 
-            borderColor: '#535356', // Border color matching background color
-            fontFamily: "Poppins",
+            backgroundColor: keylockFunction === value ? adminControlPanelGeneralColor : '#FFFFFF', 
+            color: keylockFunction === value ? '#FFFFFF' : adminControlPanelGeneralColor, 
+            borderColor: adminControlPanelGeneralColor, // Border color matching background color
+            fontFamily: adminControlPanelFontFamily,
             fontSize: "14px"
           }}
           name="keylockFunction"
@@ -417,7 +436,7 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
               style={{
                 fontWeight: '600',
                 fontSize: '16px',
-                fontFamily: "Poppins"
+                fontFamily: adminControlPanelFontFamily
               }}
             >
              Door/Window Contact:
@@ -425,12 +444,14 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
   </Col>
   <Col sm={3} className="d-flex justify-content-end">
     <ButtonGroup>
+      
       <Button 
+      disabled={!isEditable} 
         style={{
-          backgroundColor: occupancyInput === tridiumBackend2Fronend["occupancyInput"]["num2str"][0] ? '#49796B' : '#FFFFFF', 
-          color: occupancyInput === tridiumBackend2Fronend["occupancyInput"]["num2str"][0] ? '#FFFFFF' : '#49796B', 
-          borderColor: '#49796B', // Border color matching background color
-          fontFamily: "Poppins",
+          backgroundColor: occupancyInput === tridiumBackend2Fronend["occupancyInput"]["num2str"][0] ? adminControlPanelOnColor : '#FFFFFF', 
+          color: occupancyInput === tridiumBackend2Fronend["occupancyInput"]["num2str"][0] ? '#FFFFFF' : adminControlPanelOnColor, 
+          borderColor: adminControlPanelOnColor, // Border color matching background color
+          fontFamily: adminControlPanelFontFamily,
           fontWeight: "bold",
           fontSize: "14px"
         }}
@@ -438,11 +459,12 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
         ON
       </Button>
       <Button 
+      disabled={!isEditable} 
         style={{
-          backgroundColor: occupancyInput === tridiumBackend2Fronend["occupancyInput"]["num2str"][2] ? '#C75861' : '#FFFFFF', 
-          color: occupancyInput === tridiumBackend2Fronend["occupancyInput"]["num2str"][2] ? '#FFFFFF' : '#C75861', 
-          borderColor: '#C75861', // Border color matching background color
-          fontFamily: "Poppins",
+          backgroundColor: occupancyInput === tridiumBackend2Fronend["occupancyInput"]["num2str"][2] ? adminControlPanelOffColor : '#FFFFFF', 
+          color: occupancyInput === tridiumBackend2Fronend["occupancyInput"]["num2str"][2] ? '#FFFFFF' : adminControlPanelOffColor, 
+          borderColor: adminControlPanelOffColor, // Border color matching background color
+          fontFamily: adminControlPanelFontFamily,
           fontWeight: "bold",
           fontSize: "14px"
         }}
@@ -458,7 +480,7 @@ function ControlPanel({ selectedHVACOda, updateRoomData }) {
               style={{
                 fontWeight: '600',
                 fontSize: '16px',
-                fontFamily: "Poppins"
+                fontFamily: adminControlPanelFontFamily
               }}
             >
              Running Status: {`${runningstatus}`}

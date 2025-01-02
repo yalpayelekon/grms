@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import homeInactive from '../../icons/navbar/homeInactive.png';
+import homeInactive from '../../assets/icons/navbar/homeInactive.png';
 import '../../css/Badge.css';  // Yeni CSS dosyasını ekliyoruz
-import homeActive from '../../icons/navbar/homeActive.png';
-import dashboardInactive from '../../icons/navbar/dashboardInactive.png';
-import dashboardActive from '../../icons/navbar/dashboardActive.png';
-import roomStatusInactive from '../../icons/navbar/roomStatusInactive.png';
-import roomStatusActive from '../../icons/navbar/roomStatusActive.png';
-import roomServicesInactive from '../../icons/navbar/roomServicesInactive.png';
-import roomServicesActive from '../../icons/navbar/roomServicesActive.png';
-import reportsInactive from '../../icons/navbar/reportsInactive.png';
-import reportsActive from '../../icons/navbar/reportsActive.png';
-import alarmsInactive from '../../icons/navbar/alarmsInactive.png';
-import alarmsActive from '../../icons/navbar/alarmsActive.png';
-import exit from '../../icons/navbar/exit.png';
+import homeActive from '../../assets/icons/navbar/homeActive.png';
+import dashboardInactive from '../../assets/icons/navbar/dashboardInactive.png';
+import dashboardActive from '../../assets/icons/navbar/dashboardActive.png';
+import roomStatusInactive from '../../assets/icons/navbar/roomStatusInactive.png';
+import roomStatusActive from '../../assets/icons/navbar/roomStatusActive.png';
+import roomServicesInactive from '../../assets/icons/navbar/roomServicesInactive.png';
+import roomServicesActive from '../../assets/icons/navbar/roomServicesActive.png';
+import reportsInactive from '../../assets/icons/navbar/reportsInactive.png';
+import reportsActive from '../../assets/icons/navbar/reportsActive.png';
+import alarmsInactive from '../../assets/icons/navbar/alarmsInactive.png';
+import alarmsActive from '../../assets/icons/navbar/alarmsActive.png';
+import exit from '../../assets/icons/navbar/exit.png';
 
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
 
 const Navbar = ({ activeLink, setActiveLink, roomServiceAlarmNumber, totalAlarmsNumber, adminNavbar, handleLogout, userData }) => {
 

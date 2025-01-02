@@ -1,6 +1,6 @@
 // WelcomeMessage.js
 import React from 'react';
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
 
 const WelcomeMessage = ({username}) => {
   

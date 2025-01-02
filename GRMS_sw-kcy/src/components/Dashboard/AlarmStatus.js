@@ -5,14 +5,14 @@ import Tooltip from '@mui/material/Tooltip';
 import { ResizableBox } from 'react-resizable';  // Import ResizableBox
 import 'react-resizable/css/styles.css'; // Import styles for resizable
 
-import lighting from '../../icons/dashboard/AlarmStatus/lighting.png';
-import hvac from '../../icons/dashboard/AlarmStatus/hvac.png';
-import rcu from '../../icons/dashboard/AlarmStatus/rcu.png';
-import door from '../../icons/dashboard/AlarmStatus/door.png';
-import pms from '../../icons/dashboard/AlarmStatus/pms.png';
-import emerg from '../../icons/dashboard/AlarmStatus/emerg.png';
+import lighting from '../../assets/icons/dashboard/AlarmStatus/lighting.png';
+import hvac from '../../assets/icons/dashboard/AlarmStatus/hvac.png';
+import rcu from '../../assets/icons/dashboard/AlarmStatus/rcu.png';
+import door from '../../assets/icons/dashboard/AlarmStatus/door.png';
+import pms from '../../assets/icons/dashboard/AlarmStatus/pms.png';
+import emerg from '../../assets/icons/dashboard/AlarmStatus/emerg.png';
 
-import UISettingsData from '../../jsonFiles/UISettingsData.json';
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json';
 
 const AlarmStatus = ({ alarmStatustData, alarmsAccessInfo }) => {
   const adminAlarmStatusFontFamily = UISettingsData.adminAlarmStatusFontFamily;
@@ -88,14 +88,32 @@ const AlarmStatus = ({ alarmStatustData, alarmsAccessInfo }) => {
     </div>
   );
 
+  // LocalStorage'den boyutları geri yükleme
+  const [boxSize, setBoxSize] = useState(() => {
+    const savedWidth = localStorage.getItem('resizableBoxWidthAlarmStatus');
+    const savedHeight = localStorage.getItem('resizableBoxHeightAlarmStatus');
+    return {
+      width: savedWidth ? parseInt(savedWidth, 10) : 400,
+      height: savedHeight ? parseInt(savedHeight, 10) : 320,
+    };
+  });
+    
+  // Boyut değişikliklerini localStorage'de kaydetme
+  const onResizeStop = (e, data) => {
+    setBoxSize({ width: data.size.width, height: data.size.height });
+    localStorage.setItem('resizableBoxWidthAlarmStatus', data.size.width);
+    localStorage.setItem('resizableBoxHeightAlarmStatus', data.size.height);
+  };
+
   return (
     <ResizableBox
-      width={400}
-      height={320}
+      width={boxSize.width} //{400}
+      height={boxSize.height} // {320}
       axis="both"
-      minConstraints={[300, 250]}  // Minimum size for the card
-      maxConstraints={[800, 600]}  // Maximum size for the card
+      minConstraints={[350, 320]}  // Minimum size for the card
+      maxConstraints={[500, 600]}  // Maximum size for the card
       resizeHandles={['se']}  // Resizing from bottom-right corner
+      onResizeStop={onResizeStop}
       style={{ margin: 'auto' }}
     >
       <Card sx={{ backgroundColor: adminAlarmStatusBodyBackgroundColor, color: adminAlarmStatusHeaderTextColor, height: '100%', width: '100%' }}>

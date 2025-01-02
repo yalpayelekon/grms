@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
 import {TableBody, TableRow, TableCell, Chip, Box, Typography, Modal} from "@mui/material";
 import PropTypes from "prop-types";
-import moreDetailsIcon from "../../icons/alarms/more-details/moreDetails.png";
-import lightingIcon from "../../icons/alarms/category/lighting.png";
-import hvacIcon from "../../icons/alarms/category/HVAC.png";
-import rcuIcon from "../../icons/alarms/category/RCU.png";
-import doorSystIcon from "../../icons/alarms/category/doorSyst.png";
-import pmsIcon from "../../icons/alarms/category/PMS.png";
-import emergIcon from "../../icons/alarms/category/emerg.png";
-import openDoorIcon from "../../icons/alarms/category/openDoor.png";
-import longInactIcon from "../../icons/alarms/category/longInact.png";
-import waitingAckIcon from "../../icons/alarms/acknowledgement/waiting.png";
-import alertIcon from "../../icons/alarms/status-icons/error.png";
-import successIcon from "../../icons/alarms/status-icons/success.png";
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
-
+import moreDetailsIcon from "../../assets/icons/alarms/more-details/moreDetails.png";
+import lightingIcon from "../../assets/icons/alarms/category/lighting.png";
+import hvacIcon from "../../assets/icons/alarms/category/HVAC.png";
+import rcuIcon from "../../assets/icons/alarms/category/RCU.png";
+import doorSystIcon from "../../assets/icons/alarms/category/doorSyst.png";
+import pmsIcon from "../../assets/icons/alarms/category/PMS.png";
+import emergIcon from "../../assets/icons/alarms/category/emerg.png";
+import openDoorIcon from "../../assets/icons/alarms/category/openDoor.png";
+import longInactIcon from "../../assets/icons/alarms/category/longInact.png";
+import waitingAckIcon from "../../assets/icons/alarms/acknowledgement/waiting.png";
+import alertIcon from "../../assets/icons/alarms/status-icons/error.png";
+import successIcon from "../../assets/icons/alarms/status-icons/success.png";
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import config from "../../config/config.json"
 const AlarmsTableRows = ({ page, rowsPerPage, order, orderBy, data }) => {
        
     // admin
@@ -58,7 +58,8 @@ const AlarmsTableRows = ({ page, rowsPerPage, order, orderBy, data }) => {
         console.log("rowToUpdate:", rowToUpdate)
         
         if (rowToUpdate) {
-            fetch('http://127.0.0.1:8000/postAlarmsAckData/', { 
+            const url = `${config.apiBaseUrl}${config.endpoints.postAlarmsAckData}`;
+            fetch(url, { 
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 // Sadece oda numarasını göndereceğiz

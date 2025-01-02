@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
-
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import config from "../../config/config.json"
 const Login = ({ handleLogin  }) => {
 
     // admin
@@ -19,6 +19,10 @@ const Login = ({ handleLogin  }) => {
     const adminPasswordText = UISettingsData.adminPasswordText;
     const adminLoginTextFieldTextColor = UISettingsData.adminLoginTextFieldTextColor;
     const adminLoginTextFieldBorderColor = UISettingsData.adminLoginTextFieldBorderColor;
+    
+    const adminForgetPasswordText = UISettingsData.adminForgetPasswordText;
+    const adminForgetPasswordFontColor = UISettingsData.adminForgetPasswordFontColor;
+    const adminForgetPasswordReply = UISettingsData.adminForgetPasswordReply;
     
     const commonTextFieldStyles = {
     '& .MuiOutlinedInput-root': {
@@ -49,7 +53,8 @@ const Login = ({ handleLogin  }) => {
     }
 
     // API'ye POST isteği gönder
-    fetch("http://localhost:8000/login/", { // Backend URL'ini güncelleyin
+    const url = `${config.apiBaseUrl}${config.endpoints.login}`;
+    fetch(url, { // Backend URL'ini güncelleyin
       method: "POST",
       headers: {
         "Content-Type": "application/json", // JSON formatında veri gönderiyoruz
@@ -72,6 +77,10 @@ const Login = ({ handleLogin  }) => {
       });
   };
   
+  const handleForgotPasswordClick = () => {
+    alert(adminForgetPasswordReply);
+  };
+
   return (
     <Box
       sx={{
@@ -84,17 +93,15 @@ const Login = ({ handleLogin  }) => {
         fontFamily: adminLoginFontFamily,
       }}
     >
-      <Box sx={{ width: { xs: '100%', sm: 400 }, textAlign:"center"}}>
+      <Box sx={{ width: { xs: '100%', sm: 400 }, textAlign:"center",}}>
         <Typography
           variant="h5"
-          align="center"
           gutterBottom
           sx={{
             marginBottom: 2,
             fontFamily: adminLoginFontFamily,
             fontSize: adminLoginTitleFontSize,
             color: adminLoginTitleFontColor,
-            whiteSpace: 'nowrap', 
           }}
         >
           {adminLoginTitleText}
@@ -174,6 +181,19 @@ const Login = ({ handleLogin  }) => {
         >
           {adminLoginButtonLabel}
         </Button>
+        {/* Şifremi Unuttum Linki */}
+        <Typography
+            variant="body2"
+            sx={{
+                marginTop: 2,
+                cursor: 'pointer',
+                textDecoration: 'underline',
+                color: adminForgetPasswordFontColor,
+            }}
+            onClick={handleForgotPasswordClick}
+        >
+            {adminForgetPasswordText}
+        </Typography>
       </Box>
     </Box>
   );

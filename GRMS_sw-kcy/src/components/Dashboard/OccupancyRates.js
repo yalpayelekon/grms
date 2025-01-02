@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import { PieChart } from '@mui/x-charts/PieChart';
-import OccupancyRatesIcon from '../../icons/dashboard/OccupancyRates/OccupancyRatesIcon.png';
-
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import OccupancyRatesIcon from '../../assets/icons/dashboard/OccupancyRates/OccupancyRatesIcon.png';
+import { ResizableBox } from 'react-resizable';  // Import ResizableBox
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import config from "../../config/config.json";  // JSON dosyasını içe aktarın
 
 const OccupancyRates = () => {
 
@@ -42,7 +43,8 @@ const OccupancyRates = () => {
 
   useEffect(() => {
     const fetchData = () => {
-    fetch("http://localhost:8000/getDashboardOccupancyRateData")
+      const url = `${config.apiBaseUrl}${config.endpoints.getDashboardOccupancyRateData}`;
+      fetch(url)
       .then(res => {
         return res.json();
       })
@@ -63,7 +65,7 @@ const OccupancyRates = () => {
     fetchData();
 
     // Her 5 saniyede bir fetch işlemini tekrar et
-    const intervalId = setInterval(fetchData, 60000);
+    const intervalId = setInterval(fetchData, config.intervalTimes.getDashboardOccupancyRateData);
     //console.log("setInterval")
     
     // Bileşen unmount edildiğinde interval'i temizle
@@ -86,9 +88,35 @@ const OccupancyRates = () => {
   .map((key) => data2.find((item) => item.key === key))
   .filter(Boolean); // Bulunamayanları (undefined) çıkar
 
+  // LocalStorage'den boyutları geri yükleme
+  const [boxSize, setBoxSize] = useState(() => {
+    const savedWidth = localStorage.getItem('resizableBoxWidthOccupancyRate');
+    const savedHeight = localStorage.getItem('resizableBoxHeightOccupancyRate');
+    return {
+      width: savedWidth ? parseInt(savedWidth, 10) : 400,
+      height: savedHeight ? parseInt(savedHeight, 10) : 320,
+    };
+  });
+      
+  // Boyut değişikliklerini localStorage'de kaydetme
+  const onResizeStop = (e, data) => {
+    setBoxSize({ width: data.size.width, height: data.size.height });
+    localStorage.setItem('resizableBoxWidthOccupancyRate', data.size.width);
+    localStorage.setItem('resizableBoxHeightOccupancyRate', data.size.height);
+  };
 
   return (
-    <Card sx={{ backgroundColor: adminOccupancyRatesBodyBackgroundColor, color: adminOccupancyRatesHeaderTextColor, width: cardWidth, height: cardHeight, margin: 'auto' }}>
+    <ResizableBox
+      width={boxSize.width} //{400}
+      height={boxSize.height} // {320}
+      axis="both"
+      minConstraints={[350, 320]}  // Minimum size for the card
+      maxConstraints={[500, 600]}  // Maximum size for the card
+      resizeHandles={['se']}  // Resizing from bottom-right corner
+      onResizeStop={onResizeStop}
+      style={{ margin: 'auto' }}
+    >
+    <Card sx={{ backgroundColor: adminOccupancyRatesBodyBackgroundColor, color: adminOccupancyRatesHeaderTextColor, height: '100%', width: '100%' }}>
       <Typography variant="h6" align="center" gutterBottom sx={{ backgroundColor: adminOccupancyRatesHeaderBackgroundColor, padding: 1, fontFamily: adminOccupancyRatesFontFamily, fontSize: adminOccupancyRatesHeaderFontSize }}>
         {adminOccupancyRatesHeaderText}
       </Typography>
@@ -135,6 +163,7 @@ const OccupancyRates = () => {
         </Box>
       </CardContent>
     </Card>
+    </ResizableBox>
   );
 };
 

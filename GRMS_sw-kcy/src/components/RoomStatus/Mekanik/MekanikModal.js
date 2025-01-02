@@ -5,7 +5,8 @@ import SuccessAlert from '../../CommonComponents/SuccessAlert';
 import ErrorAlert from '../../CommonComponents/ErrorAlert';
 import '../../../css/style.css'; // CSS dosyasını ekleyin
 import Swal from 'sweetalert2';
-import UISettingsData from '../../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import config from "../../../config/config.json"
 
 function MekanikModal({ selectedHVACOda, show, setShow, blokNumarasi, katNumarasi, onClickLighting }) {
     
@@ -14,7 +15,9 @@ function MekanikModal({ selectedHVACOda, show, setShow, blokNumarasi, katNumaras
     const adminMekanikModalInfoMessageSubTitle = UISettingsData.adminMekanikModalInfoMessageSubTitle || 'Data is saved successfully.';
     const adminMekanikModalAlertMessageTitle = UISettingsData.adminMekanikModalAlertMessageTitle || "Error";
     const adminMekanikModalAlertMessageSubTitle =  UISettingsData.adminMekanikModalAlertMessageSubTitle || 'HVAC Communication Error';  
-    
+    const adminControlPanelSaveButton = UISettingsData.adminControlPanelSaveButton || '#49796B';
+    const adminControlPanelLightingButton = UISettingsData.adminControlPanelLightingButton || '#A8C5DA';
+
     const [roomData, setRoomData] = useState({});
     const [showSuccessAlert, setShowSuccessAlert] = useState(null);
     const [showErrorAlert, setShowErrorAlert] = useState(null);
@@ -69,7 +72,9 @@ function MekanikModal({ selectedHVACOda, show, setShow, blokNumarasi, katNumaras
             });
             return; // İşlemi durdur
         }
-        fetch(`http://127.0.0.1:8000/putRoomStatusHVACData/${blokNumarasi}/${katNumarasi}/${selectedHVACOda.odaNumarasi}`, {
+        const url = `${config.apiBaseUrl}${config.endpoints.putRoomStatusHVACData}/${blokNumarasi}/${katNumarasi}/${selectedHVACOda.odaNumarasi}`;
+        // const url = `http://127.0.0.1:8000/putRoomStatusHVACData/${blokNumarasi}/${katNumarasi}/${selectedHVACOda.odaNumarasi}`
+        fetch(url, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -133,8 +138,8 @@ function MekanikModal({ selectedHVACOda, show, setShow, blokNumarasi, katNumaras
                             fontFamily: 'Poppins',
                             fontWeight: '600',
                             fontSize: '14px',
-                            backgroundColor: '#A8C5DA',
-                            border: '#A8C5DA',
+                            backgroundColor: adminControlPanelLightingButton,
+                            border: adminControlPanelLightingButton,
                             color: "black",
                             borderRadius: 34,
                         }}
@@ -149,9 +154,9 @@ function MekanikModal({ selectedHVACOda, show, setShow, blokNumarasi, katNumaras
                 <Modal.Footer>
                     <Button
                         style={{
-                            backgroundColor: '#49796B',
+                            backgroundColor: adminControlPanelSaveButton,
                             color: '#FFFFFF',
-                            borderColor: '#49796B',
+                            borderColor: adminControlPanelSaveButton,
                             fontFamily: "Poppins",
                             fontWeight: "bold",
                             fontSize: "14px"

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Checkbox, FormControlLabel } from '@mui/material';
 
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
 
 function RoomStatusCheckBox({ checkboxName, onChange }) {
 

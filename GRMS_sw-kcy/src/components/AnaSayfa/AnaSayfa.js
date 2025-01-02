@@ -7,9 +7,9 @@ import LogoComponent from '../CommonComponents/LogoComponent'
 import {Stack} from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 
-import gloriaHomePageImg from '../../icons/anaSayfa/gloriaHomePageImg.png';
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
-
+import gloriaHomePageImg from '../../assets/icons/anaSayfa/gloriaHomePageImg.png';
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsAnaSayfa from '../../assets/jsonFiles/UISettingsAnaSayfaRoomStatus.json'; // JSON dosyasını import ettik
 import Button from '@material-ui/core/Button';
 
 import '../../css/Badge.css';  // Yeni CSS dosyasını ekliyoruz
@@ -96,204 +96,235 @@ function AnaSayfa({ weatherData, dateData, setActiveLink, blokKatAlarmNumberData
     const { temperature, seaTemperature } = weatherData;
     const { formattedDate, formattedTime } = dateData;
 
-    const homePageBlokButtons = [
-        { ui_display_name:"Owner Villalar", button_name: "Owner Villalar", x_coordinate: 340 , y_coordinate: 229 , active: true},
-        { ui_display_name:"5200 Doğu", button_name: "5200 Doğu", x_coordinate: 285 , y_coordinate: 300, active: true},
-        { ui_display_name:"5900", button_name: "5900", x_coordinate: 235 , y_coordinate: 380, active: true},
-        { ui_display_name:"5800", button_name: "5800", x_coordinate: 175 , y_coordinate: 448, active: true},
-        { ui_display_name:"A Blok", button_name: "A", x_coordinate: 529 , y_coordinate: 370, active: true},
-        { ui_display_name:"Kapalı Havuz SPA", button_name: "Kapalı Havuz SPA", x_coordinate: 551 , y_coordinate: 452, active: false},
-        { ui_display_name:"Genel Mahal", button_name: "Genel Mahal", x_coordinate: 910 , y_coordinate: 401, active: false},
-        { ui_display_name:"F Blok", button_name: "F", x_coordinate: 1198 , y_coordinate: 401, active: true},
-        { ui_display_name:"Convention Center", button_name: "Convention Center", x_coordinate: 29 , y_coordinate: 591, active: false},
-        { ui_display_name:"Fitness", button_name: "Fitness", x_coordinate: 525 , y_coordinate: 561, active: false},
-        { ui_display_name:"Gogi Kids Club", button_name: "Gogi Kids Club", x_coordinate: 1000 , y_coordinate: 684, active: false},
-        { ui_display_name:"5200 Batı", button_name: "5200 Batı", x_coordinate: 1200 , y_coordinate: 272, active: true},
-        { ui_display_name:"5300", button_name: "5300", x_coordinate: 1365 , y_coordinate: 305, active: true},
-        { ui_display_name:"5500", button_name: "5500", x_coordinate: 1450 , y_coordinate: 330, active: false},
-        { ui_display_name:"5600", button_name: "5600", x_coordinate: 1506 , y_coordinate: 376, active: false},
-        { ui_display_name:"5700", button_name: "5700", x_coordinate: 1574 , y_coordinate: 441, active: false},
-        { ui_display_name:"5000", button_name: "5000", x_coordinate: 1505 , y_coordinate: 501, active: true},
-        { ui_display_name:"5100", button_name: "5100", x_coordinate: 1598 , y_coordinate: 542, active: true},
-        { ui_display_name:"Gogi Fun Jungle", button_name: "Gogi Fun Jungle", x_coordinate: 1465 , y_coordinate: 629, active: false},
+    const homePageBlokButtons = UISettingsAnaSayfa.homePageBlokButtons;
+    const polyPointsData = UISettingsAnaSayfa.polyPointsData;
 
-    ];
+    // Ölçekleme ve path oluşturma
+    const paths = polyPointsData.map(({ points, fill }) => {
+        const scaledPoints = points.map(point => ({
+            x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
+            y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
+        }));
 
-    const polyPointsDoguVilla = [
-        { x: 322, y: 168 }, // sol üst
-        { x: 630, y: 173 }, // sağ üst
-        { x: 222, y: 527 }, // sağ alt köşe
-        { x: 55, y: 521 }  // sol alt köşe
-    ];
+        const pathData = `M${scaledPoints.map(point => `${point.x},${point.y}`).join('L')}Z`;
 
-    const polyPointsABlok = [
-        { x: 600, y: 283 }, // sol üst
-        { x: 730, y: 287 }, // sağ üst
-        { x: 692, y: 409 }, // sağ alt köşe
-        { x: 394, y: 405 },  // sol alt köşe
-        { x: 464, y: 317 },
-        { x: 583, y: 320 }
-    ];
+        return { d: pathData, fill };
+    });
 
-    const polyPointsKapaliHavuz = [
-        { x: 705, y: 368 }, // sol üst
-        { x: 797, y: 373 }, // sağ üst
-        { x: 725, y: 471 }, // sağ alt köşe
-        { x: 522, y: 471 },  // sol alt köşe
-        { x: 557, y: 408 },
-        { x: 690, y: 411 }
-    ];
+    // const homePageBlokButtons = [
+    //     { ui_display_name:"Owner Villa", button_name: "Owner Villalar", x_coordinate: 340 , y_coordinate: 229 , active: true},
+    //     { ui_display_name:"5200 East", button_name: "5200 Doğu", x_coordinate: 285 , y_coordinate: 300, active: true},
+    //     { ui_display_name:"5900", button_name: "5900", x_coordinate: 235 , y_coordinate: 380, active: true},
+    //     { ui_display_name:"5800", button_name: "5800", x_coordinate: 175 , y_coordinate: 448, active: true},
+    //     { ui_display_name:"A Block", button_name: "A", x_coordinate: 529 , y_coordinate: 370, active: true},
+    //     { ui_display_name:"Indoor Pool - SPA", button_name: "Kapalı Havuz SPA", x_coordinate: 551 , y_coordinate: 452, active: false},
+    //     { ui_display_name:"General Area", button_name: "Genel Mahal", x_coordinate: 910 , y_coordinate: 401, active: false},
+    //     { ui_display_name:"F Block", button_name: "F", x_coordinate: 1198 , y_coordinate: 401, active: true},
+    //     { ui_display_name:"Convention Center", button_name: "Convention Center", x_coordinate: 29 , y_coordinate: 591, active: false},
+    //     { ui_display_name:"Fitness", button_name: "Fitness", x_coordinate: 525 , y_coordinate: 561, active: false},
+    //     { ui_display_name:"Gogi Kids Club", button_name: "Gogi Kids Club", x_coordinate: 1000 , y_coordinate: 684, active: false},
+    //     { ui_display_name:"5200 West", button_name: "5200 Batı", x_coordinate: 1200 , y_coordinate: 272, active: true},
+    //     { ui_display_name:"5300", button_name: "5300", x_coordinate: 1365 , y_coordinate: 305, active: true},
+    //     { ui_display_name:"5500", button_name: "5500", x_coordinate: 1450 , y_coordinate: 330, active: false},
+    //     { ui_display_name:"5600", button_name: "5600", x_coordinate: 1506 , y_coordinate: 376, active: false},
+    //     { ui_display_name:"5700", button_name: "5700", x_coordinate: 1574 , y_coordinate: 441, active: false},
+    //     { ui_display_name:"5000", button_name: "5000", x_coordinate: 1505 , y_coordinate: 501, active: true},
+    //     { ui_display_name:"5100", button_name: "5100", x_coordinate: 1598 , y_coordinate: 542, active: true},
+    //     { ui_display_name:"Gogi Fun Jungle", button_name: "Gogi Fun Jungle", x_coordinate: 1465 , y_coordinate: 629, active: false},
 
-    const polyPointsGenelMahal = [
-        { x: 719, y: 329 }, // sol üst
-        { x: 1094, y: 346 }, // sağ üst
-        { x: 1103, y: 424 }, // sağ alt köşe
-        { x: 1164, y: 450 },  // sol alt köşe
-        { x: 1040, y: 513 },
-        { x: 897, y: 432 },
-        { x: 903, y: 378 },
-        { x: 874, y: 378 },
-        { x: 872, y: 408 },
-        { x: 817, y: 407 },
-        { x: 823, y: 375 },
-        { x: 705, y: 368 },
-    ];
+    // ];
 
-    const polyPointsFBlok = [
-        { x: 1051, y: 303 },
-        { x: 1177, y: 304 }, 
-        { x: 1190, y: 348 },
-        { x: 1318, y: 352 }, 
-        { x: 1351, y: 405 },
-        { x: 1340, y: 460 },
-        { x: 1164, y: 450 },
-        { x: 1103, y: 424 },
-        { x: 1103, y: 424 }, 
-        { x: 1094, y: 346 }, 
-        { x: 1057, y: 346 }, 
-    ];
+    // const polyPointsData = [
+    //     { 
+    //         points: [
+    //             { x: 322, y: 168 },
+    //             { x: 630, y: 173 },
+    //             { x: 222, y: 527 },
+    //             { x: 55, y: 521 }
+    //         ], 
+    //         fill: '#86CCFF80' 
+    //     },
+    //     { 
+    //         points: [
+    //             { x: 600, y: 283 },
+    //             { x: 730, y: 287 },
+    //             { x: 692, y: 409 },
+    //             { x: 394, y: 405 },
+    //             { x: 464, y: 317 },
+    //             { x: 583, y: 320 }
+    //         ], 
+    //         fill: '#49EEBE80' 
+    //     },
+    //     { 
+    //         points: [
+    //             { x: 705, y: 368 },
+    //             { x: 797, y: 373 },
+    //             { x: 725, y: 471 },
+    //             { x: 522, y: 471 },
+    //             { x: 557, y: 408 },
+    //             { x: 690, y: 411 }
+    //         ], 
+    //         fill: '#AEAEFF80' 
+    //     },
+    //     { 
+    //         points: [
+    //             { x: 719, y: 329 },
+    //             { x: 1094, y: 346 },
+    //             { x: 1103, y: 424 },
+    //             { x: 1164, y: 450 },
+    //             { x: 1040, y: 513 },
+    //             { x: 897, y: 432 },
+    //             { x: 903, y: 378 },
+    //             { x: 874, y: 378 },
+    //             { x: 872, y: 408 },
+    //             { x: 817, y: 407 },
+    //             { x: 823, y: 375 },
+    //             { x: 705, y: 368 },
+    //         ], 
+    //         fill: '#FFD55B80' 
+    //     },
+    //     { 
+    //         points: [
+    //             { x: 1051, y: 303 },
+    //             { x: 1177, y: 304 }, 
+    //             { x: 1190, y: 348 },
+    //             { x: 1318, y: 352 }, 
+    //             { x: 1351, y: 405 },
+    //             { x: 1340, y: 460 },
+    //             { x: 1164, y: 450 },
+    //             { x: 1103, y: 424 },
+    //             { x: 1094, y: 346 }, 
+    //             { x: 1057, y: 346 }, 
+    //         ], 
+    //         fill: '#BB0BBF80' 
+    //     },
+    //     { 
+    //         points: [
+    //             { x: 69, y: 535 },
+    //             { x: 300, y: 545 }, 
+    //             { x: 240, y: 632 },
+    //             { x: 347, y: 632 }, 
+    //             { x: 290, y: 724 },
+    //             { x: 17, y: 724 },
+    //             { x: 5, y: 718 },
+    //             { x: 3, y: 716 },
+    //             { x: 1, y: 705 },
+    //             { x: 0, y: 654 },
+    //             { x: 35, y: 613 },
+    //             { x: 0, y: 607 },
+    //             { x: 0, y: 598 },
+    //         ], 
+    //         fill: '#51E85A80' 
+    //     },
+    //     { 
+    //         points: [
+    //             { x: 536, y: 530 },
+    //             { x: 612, y: 534 }, 
+    //             { x: 593, y: 578 },
+    //             { x: 517, y: 572 }, 
+    //         ], 
+    //         fill: '#8DBD0680' 
+    //     },
+    //     { 
+    //         points: [
+    //             { x: 864, y: 725 },
+    //             { x: 1132, y: 570 }, 
+    //             { x: 1268, y: 635 },
+    //             { x: 1187, y: 725 }, 
+    //         ], 
+    //         fill: '#24C1D480' 
+    //     },
+    //     { 
+    //         points: [
+    //             { x: 1145, y: 241 },
+    //             { x: 1223, y: 239 }, 
+    //             { x: 1330, y: 241 },
+    //             { x: 1485, y: 273 },
+    //             { x: 1629, y: 358 },
+    //             { x: 1750, y: 488 },
+    //             { x: 1750, y: 626 },
+    //             { x: 1559, y: 724 },
+    //             { x: 1346, y: 724 },
+    //             { x: 1388, y: 628 },
+    //             { x: 1483, y: 501 },
+    //             { x: 1422, y: 387 },
+    //             { x: 1288, y: 335 },
+    //             { x: 1186, y: 296 },
+    //         ], 
+    //         fill: '#86CCFF80' 
+    //     },
+    // ];
 
-    const polyPointsConventionCenter = [
-        { x: 69, y: 535 },
-        { x: 300, y: 545 }, 
-        { x: 240, y: 632 },
-        { x: 347, y: 632 }, 
-        { x: 290, y: 724 },
-        { x: 17, y: 724 },
-        { x: 5, y: 718 },
-        { x: 3, y: 716 },
-        { x: 1, y: 705 },
-        { x: 0, y: 654 },
-        { x: 35, y: 613 },
-        { x: 0, y: 607 },
-        { x: 0, y: 598 },
-    ];
+        // // Koordinatları sayfaya göre ölçekleme
+    // const scaledPolyDoguVilla = polyPointsDoguVilla.map(point => ({
+    //     x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
+    //     y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
+    // }));
 
-    const polyPointsFitness = [
-        { x: 536, y: 530 },
-        { x: 612, y: 534 }, 
-        { x: 593, y: 578 },
-        { x: 517, y: 572 }, 
+    // // Koordinatları sayfaya göre ölçekleme
+    // const scaledPolyABlok = polyPointsABlok.map(point => ({
+    //     x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
+    //     y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
+    // }));
 
-    ];
+    // // Koordinatları sayfaya göre ölçekleme
+    // const scaledPolyKapaliHavuz = polyPointsKapaliHavuz.map(point => ({
+    //     x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
+    //     y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
+    // }));
 
-    const polyPointsGogiKidsClub = [
-        { x: 864, y: 725 },
-        { x: 1132, y: 570 }, 
-        { x: 1268, y: 635 },
-        { x: 1187, y: 725 }, 
+    // // Koordinatları sayfaya göre ölçekleme
+    // const scaledPolyFBlok = polyPointsFBlok.map(point => ({
+    //     x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
+    //     y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
+    // }));
+    // // Koordinatları sayfaya göre ölçekleme
+    // const scaledPolyGenelMahal = polyPointsGenelMahal.map(point => ({
+    //     x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
+    //     y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
+    // }));
+    // // Koordinatları sayfaya göre ölçekleme
+    // const scaledPolyConventionCenter = polyPointsConventionCenter.map(point => ({
+    //     x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
+    //     y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
+    // }));
 
-    ];
+    // const scaledPolyFitness = polyPointsFitness.map(point => ({
+    //     x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
+    //     y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
+    // }));
 
-    const polyPointsBatiVilla = [
-        { x: 1145, y: 241 },
-        { x: 1223, y: 239 }, 
-        { x: 1330, y: 241 },
-        { x: 1485, y: 273 },
-        { x: 1629, y: 358 },
-        { x: 1760, y: 488 },
-        { x: 1760, y: 626 },
-        { x: 1559, y: 724 },
-        { x: 1346, y: 724 },
-        { x: 1388, y: 628 },
-        { x: 1483, y: 501 },
-        { x: 1422, y: 387 },
-        { x: 1288, y: 335 },
-        { x: 1186, y: 296 },
-
-    ];
-
-    // Koordinatları sayfaya göre ölçekleme
-    const scaledPolyDoguVilla = polyPointsDoguVilla.map(point => ({
-        x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
-        y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
-    }));
-
-    // Koordinatları sayfaya göre ölçekleme
-    const scaledPolyABlok = polyPointsABlok.map(point => ({
-        x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
-        y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
-    }));
-
-    // Koordinatları sayfaya göre ölçekleme
-    const scaledPolyKapaliHavuz = polyPointsKapaliHavuz.map(point => ({
-        x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
-        y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
-    }));
-
-    // Koordinatları sayfaya göre ölçekleme
-    const scaledPolyFBlok = polyPointsFBlok.map(point => ({
-        x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
-        y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
-    }));
-    // Koordinatları sayfaya göre ölçekleme
-    const scaledPolyGenelMahal = polyPointsGenelMahal.map(point => ({
-        x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
-        y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
-    }));
-    // Koordinatları sayfaya göre ölçekleme
-    const scaledPolyConventionCenter = polyPointsConventionCenter.map(point => ({
-        x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
-        y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
-    }));
-
-    const scaledPolyFitness = polyPointsFitness.map(point => ({
-        x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
-        y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
-    }));
-
-    const scaledPolyGogiKidsClub = polyPointsGogiKidsClub.map(point => ({
-        x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
-        y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
-    }));
-    const scaledPolyBatiVilla = polyPointsBatiVilla.map(point => ({
-        x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
-        y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
-    }));
+    // const scaledPolyGogiKidsClub = polyPointsGogiKidsClub.map(point => ({
+    //     x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
+    //     y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
+    // }));
+    // const scaledPolyBatiVilla = polyPointsBatiVilla.map(point => ({
+    //     x: (point.x / gloriaHomePageImgWidthOrj) * gloriaHomePageImgWidth,
+    //     y: (point.y / gloriaHomePageImgHeightOrj) * gloriaHomePageImgHeight
+    // }));
 
     // SVG path için dize oluşturma
-    const polyPathDoguVilla = `M${scaledPolyDoguVilla.map(point => `${point.x},${point.y}`).join('L')}Z`;
-    const polyPathABlok = `M${scaledPolyABlok.map(point => `${point.x},${point.y}`).join('L')}Z`;
-    const polyPathKapaliHavuz = `M${scaledPolyKapaliHavuz.map(point => `${point.x},${point.y}`).join('L')}Z`;
-    const polyPathGenelMahal = `M${scaledPolyGenelMahal.map(point => `${point.x},${point.y}`).join('L')}Z`;
-    const polyPathFBlok = `M${scaledPolyFBlok.map(point => `${point.x},${point.y}`).join('L')}Z`;
-    const polyPathConventionCenter = `M${scaledPolyConventionCenter.map(point => `${point.x},${point.y}`).join('L')}Z`;
-    const polyPathFitness = `M${scaledPolyFitness.map(point => `${point.x},${point.y}`).join('L')}Z`;
-    const polyPathGogiKidsClub = `M${scaledPolyGogiKidsClub.map(point => `${point.x},${point.y}`).join('L')}Z`;
-    const polyPathBatiVilla = `M${scaledPolyBatiVilla.map(point => `${point.x},${point.y}`).join('L')}Z`;
+    // const polyPathDoguVilla = `M${scaledPolyDoguVilla.map(point => `${point.x},${point.y}`).join('L')}Z`;
+    // const polyPathABlok = `M${scaledPolyABlok.map(point => `${point.x},${point.y}`).join('L')}Z`;
+    // const polyPathKapaliHavuz = `M${scaledPolyKapaliHavuz.map(point => `${point.x},${point.y}`).join('L')}Z`;
+    // const polyPathGenelMahal = `M${scaledPolyGenelMahal.map(point => `${point.x},${point.y}`).join('L')}Z`;
+    // const polyPathFBlok = `M${scaledPolyFBlok.map(point => `${point.x},${point.y}`).join('L')}Z`;
+    // const polyPathConventionCenter = `M${scaledPolyConventionCenter.map(point => `${point.x},${point.y}`).join('L')}Z`;
+    // const polyPathFitness = `M${scaledPolyFitness.map(point => `${point.x},${point.y}`).join('L')}Z`;
+    // const polyPathGogiKidsClub = `M${scaledPolyGogiKidsClub.map(point => `${point.x},${point.y}`).join('L')}Z`;
+    // const polyPathBatiVilla = `M${scaledPolyBatiVilla.map(point => `${point.x},${point.y}`).join('L')}Z`;
 
-    const pathOpacity = "0.5";
-    const paths = [
-        {d: polyPathDoguVilla, fill: '#86CCFF', opacity: pathOpacity},
-        {d: polyPathABlok, fill: '#49EEBE', opacity: pathOpacity},
-        {d: polyPathKapaliHavuz, fill: '#AEAEFF', opacity: pathOpacity},
-        {d: polyPathGenelMahal, fill: '#FFD55B', opacity: pathOpacity},
-        {d: polyPathFBlok, fill: '#BB0BBF', opacity: pathOpacity},
-        {d: polyPathConventionCenter, fill: '#51E85A', opacity: pathOpacity},
-        {d: polyPathFitness, fill: '#8DBD06', opacity: pathOpacity},
-        {d: polyPathGogiKidsClub, fill: '#24C1D4', opacity: pathOpacity},
-        {d: polyPathBatiVilla, fill: '#86CCFF', opacity: pathOpacity},
-    ];
+    // const paths = [
+    //     {d: polyPathDoguVilla, fill: '#86CCFF', opacity: pathOpacity},
+    //     {d: polyPathABlok, fill: '#49EEBE', opacity: pathOpacity},
+    //     {d: polyPathKapaliHavuz, fill: '#AEAEFF', opacity: pathOpacity},
+    //     {d: polyPathGenelMahal, fill: '#FFD55B', opacity: pathOpacity},
+    //     {d: polyPathFBlok, fill: '#BB0BBF', opacity: pathOpacity},
+    //     {d: polyPathConventionCenter, fill: '#51E85A', opacity: pathOpacity},
+    //     {d: polyPathFitness, fill: '#8DBD06', opacity: pathOpacity},
+    //     {d: polyPathGogiKidsClub, fill: '#24C1D4', opacity: pathOpacity},
+    //     {d: polyPathBatiVilla, fill: '#86CCFF', opacity: pathOpacity},
+    // ];
 
     // Butona tıklanma işlevi
     const handleButtonClick = (buttonName) => {
@@ -329,7 +360,7 @@ function AnaSayfa({ weatherData, dateData, setActiveLink, blokKatAlarmNumberData
             </Grid>
 
             <Grid container spacing={2} style={{  borderRadius: "15px" }}>
-                <Grid item sx={12} sm={12} md={12} lg={12} style={{ height: 'auto', position: 'relative', padding: '0', margin: '0' }}>
+                <Grid item sx={12} sm={12} md={12} lg={12} style={{ height: 'auto', position: 'relative', padding: '0', margin: '10px' }}>
                     <img src={gloriaHomePageImg} alt="Home Page" style={{ width: gloriaHomePageImgWidth, height: gloriaHomePageImgHeight, borderRadius: '5px' }} />
                     
                     <svg
@@ -341,7 +372,6 @@ function AnaSayfa({ weatherData, dateData, setActiveLink, blokKatAlarmNumberData
                             key={index}
                             d={path.d}
                             fill={path.fill}
-                            opacity={path.opacity}
                         />
                     ))}
                     </svg>

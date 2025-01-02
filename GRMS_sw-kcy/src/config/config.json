@@ -1,0 +1,37 @@
+{
+    "apiBaseUrl": "http://localhost:8000",
+    "endpoints": {
+      "getTemperatureData": "/getTemperatureData/",
+      "getSeaTemperatureData": "/getSeaTemperatureData/",
+      "getRoomServicesData": "/getRoomServicesData",
+      "getDashboardServiceRequestData": "/getDashboardServiceRequestData",
+      "getDashboardAlarmStatusData": "/getDashboardAlarmStatusData",
+      "getAlarmsData": "/getAlarmsData",
+      "getDashboardHVACStatusData": "/getDashboardHVACStatusData",
+      "getDashboardOccupancyRateData":"/getDashboardOccupancyRateData",
+      "login": "/login/",
+      "getReportsData": "/getReportsData/",
+      "postRoomServicesAckData": "/postRoomServicesAckData/",
+      "getHVACDataForFrontend": "/getHVACDataForFrontend",
+      "postAlarmsAckData": "/postAlarmsAckData/",
+      "getRoomStatusOutputDeviceData": "/getRoomStatusOutputDeviceData",
+      "getRoomStatusHVACData": "/getRoomStatusHVACData",
+      "getRoomDetailsData": "/getRoomDetailsData",
+      "getRoomStatusData": "/getRoomStatusData",
+      "putControllerActualLevelData": "/putControllerActualLevelData",
+      "putRoomStatusHVACData": "/putRoomStatusHVACData"
+
+    },
+    "intervalTimes": {
+      "getTemperatureData": 3600000,  
+      "getSeaTemperatureData": 3600000,  
+      "getRoomServicesData": 60000,  
+      "getDashboardServiceRequestData": 60000,  
+      "getDashboardAlarmStatusData": 60000,  
+      "getAlarmsData": 60000,  
+      "getDashboardHVACStatusData": 60000,  
+      "getDashboardOccupancyRateData": 60000,
+      "getHVACDataForFrontend": 600000,
+      "getRoomStatusData": 5000
+    }
+  }

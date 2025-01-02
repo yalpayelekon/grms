@@ -59,7 +59,7 @@ class RCUHelvarRouterData(models.Model):
 
     hkInRoom = models.CharField(blank=True,max_length=200) # 0-> hk odada degil, 1 hk odada
 
-    doorOpen = models.CharField(blank=True,max_length=200) # doorOpenAlarm: 0 alarm yok 1 alarm var
+    doorOpenAlarm = models.CharField(blank=True,max_length=200) # doorOpenAlarm: 0 alarm yok 1 alarm var
 
     outputDevices = jsonfield.JSONField(blank=True, default=list)
 

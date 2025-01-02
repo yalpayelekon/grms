@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MekanikRoomCard from './MekanikRoomCard';
 import MekanikModal from './MekanikModal';
+import config from "../../../config/config.json"
 
 function Mekanik({}) {
 
@@ -18,7 +19,8 @@ function Mekanik({}) {
     setActiveKatNo("1");
 
     const fetchData = () => {
-    fetch("http://localhost:8000/getHVACDataForFrontend")
+      const url = `${config.apiBaseUrl}${config.endpoints.getHVACDataForFrontend}`;
+      fetch(url)
       .then(res => {
         return res.json();
       })
@@ -44,7 +46,7 @@ function Mekanik({}) {
     fetchData();
 
     // Her 5 saniyede bir fetch işlemini tekrar et
-    const intervalId = setInterval(fetchData, 5000);
+    const intervalId = setInterval(fetchData, config.intervalTimes.getHVACDataForFrontend);
     //console.log("setInterval")
     
     // Bileşen unmount edildiğinde interval'i temizle

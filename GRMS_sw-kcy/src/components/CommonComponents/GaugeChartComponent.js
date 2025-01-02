@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import GaugeChart from 'react-gauge-chart';
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
 
 const GaugeChartComponent = ({ averageTimeGauge, width, height, min, max }) => {
 

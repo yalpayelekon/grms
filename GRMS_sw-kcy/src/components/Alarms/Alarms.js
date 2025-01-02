@@ -3,14 +3,14 @@ import Grid from '@material-ui/core/Grid';
 import TempDate from '../CommonComponents/TemperatureDate'
 import { useMediaQuery } from '@mui/material';
 import {Stack} from '@mui/material';
-import filterIcon from '../../icons/generic/filterIcon.png';
+import filterIcon from '../../assets/icons/generic/filterIcon.png';
 import TableComponent from "./TableComponent";
 import CheckmarksFilter from "../CommonComponents/CheckmarksFilter";
 
 import LogoComponent from '../CommonComponents/LogoComponent';
 import { useLocation } from 'react-router-dom'; // URL parametrelerini almak için
 
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
 
 function Alarms({ weatherData, dateData, setActiveLink, alarmsData, fetchAlarmsData }) {
 

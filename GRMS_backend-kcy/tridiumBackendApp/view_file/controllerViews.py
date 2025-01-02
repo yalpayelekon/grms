@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 import json
 
 from django.views.decorators.csrf import csrf_exempt
-from ..tasks import setControllerActualLevel, setRCUModbus
+from ..tasks_file.tasks import setRCUControllerActualLevel, setHelvarControllerActualLevel, setRCUModbus
 from django.utils import timezone
 from .helper import logger
 
@@ -106,7 +106,7 @@ def setEventsMURLNDDNDRoomOccupiedOpenDoor(request):
             dnd = data.get("dndActive")
             hkInRoom = data.get("hkInRoom")
             roomOccupied = data.get("roomOccupied")
-            doorOpen = data.get("doorOpen")
+            doorOpenAlarm = data.get("doorOpenAlarm")
 
             record = RCUHelvarRouterData.objects.get(blokNumarasi=blokNumarasi, katNumarasi=katNumarasi, odaNumarasi=odaNumarasi)
 
@@ -121,8 +121,8 @@ def setEventsMURLNDDNDRoomOccupiedOpenDoor(request):
                     record.hkInRoom = hkInRoom
                 if roomOccupied != "-1":
                     record.roomOccupied = roomOccupied
-                if doorOpen != "-1":
-                    record.doorOpen = doorOpen
+                if doorOpenAlarm != "-1":
+                    record.doorOpenAlarm = doorOpenAlarm
                 # Kaydet
                 record.save()
                 
@@ -222,7 +222,6 @@ def setControllerInitialInformationToDB(request):
             lndActive = data["lndActive"]
             murActive = data["murActive"]
             hkInRoom = data["hkInRoom"]
-            doorOpen = data["doorOpen"]
             # RCUHelvarRouterData modelinden veriyi çek
             try:
                 instance = RCUHelvarRouterData.objects.get(blokNumarasi=blokNumarasi, katNumarasi=katNumarasi, odaNumarasi=odaNumarasi)
@@ -234,7 +233,6 @@ def setControllerInitialInformationToDB(request):
                 instance.lndActive = lndActive
                 instance.murActive = murActive
                 instance.hkInRoom = hkInRoom
-                instance.doorOpen = doorOpen
                 instance.outputDevices = data.get("list_controller_initial_information", [])
                 instance.save()
                 logger.info("Output devices saved to database.")
@@ -339,43 +337,66 @@ def setOutputDeviceActualLevel(request):
         return JsonResponse({'error': 'Unsupported method'}, status=405)    
 
 @csrf_exempt
-def putControllerActualLevelData(request, blokNumarasi, katNumarasi, odaNumarasi, ip):
+def putControllerActualLevelData(request, ip):
     
-    logger.info(f"blokNumarasi: {blokNumarasi}, katNumarasi: {katNumarasi}, odaNumarasi: {odaNumarasi}, ip: {ip}")
+    logger.info(f" ip: {ip}")
         
     try:
         data = json.loads(request.body)
         logger.info(f"data: {data}")
-        # Burada JSON verisini işleyip gerekli işlemleri yapabilirsiniz
-        # İşlem başarılıysa:
-        address = data["address"]
-        actualLevel = data["actualLevel"]
-        setControllerActualLevelResult = setControllerActualLevel.delay(ip, address, actualLevel).get(timeout=100)
-        logger.info(f"setControllerActualLevelResult: {setControllerActualLevelResult}")
 
-        if setControllerActualLevelResult:
-            logger.info(f"ip: {ip } address: {address}, actualLevel: {actualLevel} verisi cihaza gonderildi.")
-            instance = RCUHelvarRouterData.objects.get( blokNumarasi=blokNumarasi, katNumarasi=katNumarasi, odaNumarasi=odaNumarasi)
-                
-            # outputDevices'ı güncelle
-            output_devices = instance.outputDevices
-            updated = False
-            for device in output_devices:
-                if device.get("address") == str(address):
-                    device["actualLevel"] = str(actualLevel)
-                    updated = True
-                    break
+        # use ip to get deviceType(rcu-helvar) from db
+        controllerInstance = RCUHelvarRouterData.objects.get(ip = ip)
+        deviceType = controllerInstance.deviceType.lower() # controller deviceType (rcu-helvar)
 
-            if updated:
-                # Güncellenmiş outputDevices'ı kaydet
-                instance.outputDevices = output_devices
-                instance.save()
-                return JsonResponse({"message": "Data processed successfully"}, status=status.HTTP_200_OK)
+        if deviceType == "rcu":
+            setRCUControllerActualLevelResult = setRCUControllerActualLevel.delay(ip, data).get(timeout=100)
+            logger.info(f"setRCUControllerActualLevelResult: {setRCUControllerActualLevelResult}")
+
+            if setRCUControllerActualLevelResult:
+                    
+                # outputDevices'ı güncelle
+                outputDevices = controllerInstance.outputDevices
+                updated = False
+                for device in outputDevices:
+                    if device.get("address") == str(data["address"]):
+                        device["actualLevel"] = str(data["actualLevel"])
+                        updated = True
+                        break
+
+                if updated:
+                    # Güncellenmiş outputDevices'ı kaydet
+                    controllerInstance.outputDevices = outputDevices
+                    controllerInstance.save()
+                    return JsonResponse({"message": "Data processed successfully"}, status=status.HTTP_200_OK)
+                else:
+                    return JsonResponse({"error": "Address not found in outputDevices"}, status=404)
             else:
                 return JsonResponse({"error": "Address not found in outputDevices"}, status=404)
-        else:
-            return JsonResponse({"error": "Address not found in outputDevices"}, status=404)
-        
+        elif deviceType == "helvar":
+            setHelvarControllerActualLevel = setHelvarControllerActualLevel.delay(ip, data).get(timeout=100)
+            logger.info(f"setHelvarControllerActualLevel: {setHelvarControllerActualLevel}")
+
+            if setHelvarControllerActualLevel:                    
+                # outputDevices'ı güncelle
+                outputDevices = controllerInstance.outputDevices
+                updated = False
+                for device in outputDevices:
+                    if device.get("address") == str(data["address"]):
+                        device["actualLevel"] = str(data["actualLevel"])
+                        updated = True
+                        break
+
+                if updated:
+                    # Güncellenmiş outputDevices'ı kaydet
+                    controllerInstance.outputDevices = outputDevices
+                    controllerInstance.save()
+                    return JsonResponse({"message": "Data processed successfully"}, status=status.HTTP_200_OK)
+                else:
+                    return JsonResponse({"error": "Address not found in outputDevices"}, status=404)
+            else:
+                return JsonResponse({"error": "Address not found in outputDevices"}, status=404)
+        else: logger.info(f"deviceType error: deviceType should be rcu or helvar")
     except json.JSONDecodeError:
         return JsonResponse({"error": "Invalid JSON"}, status=status.HTTP_400_BAD_REQUEST)
 

@@ -5,11 +5,11 @@ import TempDate from "../CommonComponents/TemperatureDate";
 import LogoComponent from "../CommonComponents/LogoComponent";
 import ReportPaper from "./ReportPaper";
 
-import alarmReportIcon from "../../icons/reports/alarmReportIcon.png";
-import serviceReportIcon from "../../icons/reports/serviceReportIcon.png";
-import energyReportIcon from "../../icons/reports/energyReportIcon.png";
+import alarmReportIcon from "../../assets/icons/reports/alarmReportIcon.png";
+import serviceReportIcon from "../../assets/icons/reports/serviceReportIcon.png";
+import energyReportIcon from "../../assets/icons/reports/energyReportIcon.png";
 
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
 
 function Reports({ weatherData, dateData, setActiveLink }) {
 

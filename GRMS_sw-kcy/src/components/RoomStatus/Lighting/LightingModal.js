@@ -4,7 +4,8 @@ import { styled } from '@mui/material/styles';
 import Fade from '@mui/material/Fade';
 import { Form,  Button, InputGroup } from 'react-bootstrap';
 import Swal from 'sweetalert2';
-import UISettingsData from '../../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import config from "../../../config/config.json"
 
 const LightingModal = ({ selectedLightingOda, isLightingModalOpen, setIsLightingModalOpen, onClickHVAC=onClickHVAC }) => {
     
@@ -13,7 +14,8 @@ const LightingModal = ({ selectedLightingOda, isLightingModalOpen, setIsLighting
     const adminLightingModalInfoMessageSubTitle = UISettingsData.adminLightingModalInfoMessageSubTitle || 'Data is saved successfullyy.';
     const adminLightingModalAlertMessageTitle = UISettingsData.adminLightingModalAlertMessageTitle || "Errors";
     const adminLightingModalAlertMessageSubTitle =  UISettingsData.adminLightingModalAlertMessageSubTitle || 'Data is not saved successfullyy.';  
-    
+    const adminLightingModalHVACButtonColor = UISettingsData.adminControlPanelLightingButton || '#A8C5DA'; // bunun ayari ile hvac da lighting butonu rengi ayari ayni
+
     const imgRef = useRef(null);
     const [localLightingOda, setLocalLightingOda] = useState({
         blokNumarasi: "",
@@ -157,7 +159,9 @@ const LightingModal = ({ selectedLightingOda, isLightingModalOpen, setIsLighting
         console.log('Oda Numarasi:', localLightingOda.odaNumarasi);
         console.log('ip:', localLightingOda.ip);
 
-        fetch(`http://127.0.0.1:8000/putControllerActualLevelData/${localLightingOda.blokNumarasi}/${localLightingOda.katNumarasi}/${localLightingOda.odaNumarasi}/${localLightingOda.ip}`, {
+        const url = `${config.apiBaseUrl}${config.endpoints.putControllerActualLevelData}/${localLightingOda.blokNumarasi}/${localLightingOda.katNumarasi}/${localLightingOda.odaNumarasi}/${localLightingOda.ip}`;
+        // const url = `http://127.0.0.1:8000/putControllerActualLevelData/${localLightingOda.blokNumarasi}/${localLightingOda.katNumarasi}/${localLightingOda.odaNumarasi}/${localLightingOda.ip}`
+        fetch(url, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -267,8 +271,8 @@ const LightingModal = ({ selectedLightingOda, isLightingModalOpen, setIsLighting
                                 fontFamily: 'Poppins',
                                 fontWeight: 'bold',
                                 fontSize: '14px',
-                                backgroundColor: '#A8C5DA',  // Bootstrap primary color
-                                border: '#A8C5DA',
+                                backgroundColor: adminLightingModalHVACButtonColor,  // Bootstrap primary color
+                                border: adminLightingModalHVACButtonColor,
                                 color: "black"
                             }}
                             onClick={() => handleHVACChange(localLightingOda.odaNumarasi)} // Butona tıklanınca fonksiyon çağrılır

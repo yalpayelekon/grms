@@ -1,7 +1,7 @@
 // LogoComponent.js
 import React, { useState, useEffect } from 'react';
-import gloriaSerenity from '../../icons/generic/gloriaSerenity.png';
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import gloriaSerenity from '../../assets/icons/generic/gloriaSerenity.png';
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
 
 const LogoComponent = () => {
   

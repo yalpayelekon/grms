@@ -145,12 +145,12 @@ def getRoomServicesData(request):
                 # serviste gecikme olup olmadigini hesapla
                 service_delay_duration = now - service.customerRequestTime
                 service_delay_duration_minutes = int(service_delay_duration.total_seconds() / 60)
-                logger.debug(f"service_delay_duration_minutes: {service_delay_duration_minutes}")
+                # logger.debug(f"service_delay_duration_minutes: {service_delay_duration_minutes}")
                 if service_delay_duration_minutes >= murDelayThreshold:
                     logger.debug(f"Gecikme var")
                     service.isDelayed = "1"
                     service.save()
-                    logger.debug(f"Service ID {service.id}, service.odaNumarasi: {service.odaNumarasi} isDelayed updated to 1")
+                    # logger.debug(f"Service ID {service.id}, service.odaNumarasi: {service.odaNumarasi} isDelayed updated to 1")
 
     # ----------------------------------------- Blok ve katlar icin geciken room service sayilarinin hesaplanmasi -----------------------------------------
     # geciken, musteri talebi olan ve temizligi devam eden room servisleri filtrele
@@ -164,7 +164,7 @@ def getRoomServicesData(request):
     # logger.debug(f"alarm_counts: {alarm_counts}")
 
     # Sonuçları dictionary'e doldur
-    logger.debug(f"blokKatAlarmNumberData: {blokKatAlarmNumberData}")
+    # logger.debug(f"blokKatAlarmNumberData: {blokKatAlarmNumberData}")
     dummy_blokKatDelayedRoomServiceNumberData = copy.deepcopy(blokKatAlarmNumberData)
 
     # Alınan sonuçları blokKatAlarmNumberData dictionary'sine yerleştir
@@ -176,9 +176,9 @@ def getRoomServicesData(request):
         if blok in dummy_blokKatDelayedRoomServiceNumberData and kat in dummy_blokKatDelayedRoomServiceNumberData[blok]:
             dummy_blokKatDelayedRoomServiceNumberData[blok][kat] = count
 
-    logger.debug(f"dummy_blokKatDelayedRoomServiceNumberData: {dummy_blokKatDelayedRoomServiceNumberData}")
-    logger.debug(f"room_service_data: {room_service_data}")
-    logger.debug(f"roomServiceAlarmNumber: {roomServiceAlarmNumber}")
+    # logger.debug(f"dummy_blokKatDelayedRoomServiceNumberData: {dummy_blokKatDelayedRoomServiceNumberData}")
+    # logger.debug(f"room_service_data: {room_service_data}")
+    # logger.debug(f"roomServiceAlarmNumber: {roomServiceAlarmNumber}")
     return JsonResponse({"roomService": room_service_data, "roomServiceAlarmNumber":roomServiceAlarmNumber, "blokKatDelayedRoomServiceNumberData":dummy_blokKatDelayedRoomServiceNumberData})
 
 

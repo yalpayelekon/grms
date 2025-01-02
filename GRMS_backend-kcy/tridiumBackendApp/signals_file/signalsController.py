@@ -4,11 +4,17 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from ..models import BlokKatOdaData, RCUHelvarRouterData
 
-
-
 # Yeni bir BlokKatOdaData kaydı oluşturulduğunda veya güncellendiğinde
 @receiver(post_save, sender=BlokKatOdaData)
 def manage_rcu_helvar_router_data(sender, instance, created, **kwargs):
+
+    if instance.isRCUConnected == "1":
+        deviceType = "rcu"
+    elif instance.isHelvarConnected == "1":
+        deviceType = "helvar"
+    else:
+        deviceType = "unknown"  # Fallback if neither is connected
+
     # Eğer yeni bir kayıt oluşturulduysa
     if created:
         # Aynı blokNumarasi, katNumarasi ve odaNumarasi ile RCUHelvarRouterData kaydının var olup olmadığını kontrol et
@@ -24,7 +30,7 @@ def manage_rcu_helvar_router_data(sender, instance, created, **kwargs):
                 blokNumarasi=instance.blokKatOda.blokNumarasi,
                 katNumarasi=instance.katNumarasi,
                 odaNumarasi=instance.odaNumarasi,
-                deviceType="ExampleDevice",  # İlgili cihaz türü
+                deviceType=deviceType,  # İlgili cihaz türü
                 ip=instance.ip,  # IP adresini BlokKatOdaData'dan al
                 port=instance.port,  # Örnek port
                 comError="0",  # Başlangıçta iletişim hatası yok
@@ -33,7 +39,7 @@ def manage_rcu_helvar_router_data(sender, instance, created, **kwargs):
                 lndActive="0",  # Başlangıçta LND aktif değil
                 murActive="0",  # Başlangıçta MUR aktif değil
                 hkInRoom="0",  # Başlangıçta HK odada değil
-                doorOpen="0",  # Başlangıçta kapı açık değil
+                doorOpenAlarm="0",  # Başlangıçta kapı açık değil
                 outputDevices=list()  # Başlangıçta boş çıkış cihazları
             )
     else:

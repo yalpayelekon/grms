@@ -111,7 +111,7 @@ def getRoomStatusData(request, blokNumarasi, katNumarasi):
                     roomState = "7"
                     roomStateErrorList.append("Controller Error")
                     c += 1
-                if RCUData_instance.doorOpen == "1":
+                if RCUData_instance.doorOpenAlarm == "1":
                     roomState = "7"
                     roomStateErrorList.append("Emergency: Door Open")
                     c += 1
@@ -132,7 +132,7 @@ def getRoomStatusData(request, blokNumarasi, katNumarasi):
                     roomState = "8"
                     roomStateErrorList.append("Controller Error")
                     c += 1
-                if RCUData_instance.doorOpen == "1":
+                if RCUData_instance.doorOpenAlarm == "1":
                     roomState = "8"
                     roomStateErrorList.append("Emergency: Door Open")
                     c += 1
@@ -153,7 +153,7 @@ def getRoomStatusData(request, blokNumarasi, katNumarasi):
                     roomState = "5"
                     roomStateErrorList.append("Controller Error")
                     c += 1
-                if RCUData_instance.doorOpen == "1":
+                if RCUData_instance.doorOpenAlarm == "1":
                     roomState = "5"
                     roomStateErrorList.append("Emergency: Door Open")
                     c += 1
@@ -174,7 +174,7 @@ def getRoomStatusData(request, blokNumarasi, katNumarasi):
                     roomState = "6"
                     roomStateErrorList.append("Controller Error")
                     c += 1
-                if RCUData_instance.doorOpen == "1":
+                if RCUData_instance.doorOpenAlarm == "1":
                     roomState = "6"
                     roomStateErrorList.append("Emergency: Door Open")
                     c += 1
@@ -195,7 +195,7 @@ def getRoomStatusData(request, blokNumarasi, katNumarasi):
                     roomState = "8"
                     roomStateErrorList.append("RCU Hatası")
                     c += 1
-                if RCUData_instance.doorOpen == "1":
+                if RCUData_instance.doorOpenAlarm == "1":
                     roomState = "8"
                     roomStateErrorList.append("Emergency: Door Open")
                     c += 1

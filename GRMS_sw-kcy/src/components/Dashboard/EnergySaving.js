@@ -3,17 +3,16 @@ import { Card, CardContent, Typography, ButtonGroup, ToggleButton, Grid } from '
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Tooltip from '@mui/material/Tooltip';
-
-import cooling_active from '../../icons/dashboard/EnergySaving/cooling_active.png';
-import cooling_inactive from '../../icons/dashboard/EnergySaving/cooling_inactive.png';
-import heating_active from '../../icons/dashboard/EnergySaving/heating_active.png';
-import heating_inactive from '../../icons/dashboard/EnergySaving/heating_inactive.png';
-import lighting_active from '../../icons/dashboard/EnergySaving/lighting_active.png';
-import lighting_inactive from '../../icons/dashboard/EnergySaving/lighting_inactive.png';
-
+import cooling_active from '../../assets/icons/dashboard/EnergySaving/cooling_active.png';
+import cooling_inactive from '../../assets/icons/dashboard/EnergySaving/cooling_inactive.png';
+import heating_active from '../../assets/icons/dashboard/EnergySaving/heating_active.png';
+import heating_inactive from '../../assets/icons/dashboard/EnergySaving/heating_inactive.png';
+import lighting_active from '../../assets/icons/dashboard/EnergySaving/lighting_active.png';
+import lighting_inactive from '../../assets/icons/dashboard/EnergySaving/lighting_inactive.png';
 import EnergyGraph from './EnergyGraph';
-
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import { ResizableBox } from 'react-resizable';  // Import ResizableBox
+import { Stack } from 'react-bootstrap';
 
 function EnergySaving() {
 
@@ -82,29 +81,58 @@ function EnergySaving() {
     </div>
   );
 
+  // LocalStorage'den boyutları geri yükleme
+  const [boxSize, setBoxSize] = useState(() => {
+    const savedWidth = localStorage.getItem('resizableBoxWidthEnergySaving');
+    const savedHeight = localStorage.getItem('resizableBoxHeightEnergySaving');
+    return {
+      width: savedWidth ? parseInt(savedWidth, 10) : 820,
+      height: savedHeight ? parseInt(savedHeight, 10) : 660,
+    };
+  });
+  
+  // Boyut değişikliklerini localStorage'de kaydetme
+  const onResizeStop = (e, data) => {
+    setBoxSize({ width: data.size.width, height: data.size.height });
+    localStorage.setItem('resizableBoxWidthEnergySaving', data.size.width);
+    localStorage.setItem('resizableBoxHeightEnergySaving', data.size.height);
+  };
+
   return (
-    
-    <Card sx={{ backgroundColor: adminEnergySavingBodyBackgroundColor, color: '#ffffff', width: '820px', height: '660px', margin: 'auto' }}>
+    <ResizableBox
+      width={boxSize.width} // {820}
+      height={boxSize.height} // {660}
+      axis="both"
+      minConstraints={[600, 660]}  // Minimum size for the card
+      maxConstraints={[1500, 660]}  // Maximum size for the card
+      resizeHandles={['se']}  // Resizing from bottom-right corner
+      onResizeStop={onResizeStop}
+      style={{ margin: 'auto' }}
+    >
+    <Card sx={{ backgroundColor: adminEnergySavingBodyBackgroundColor, color: '#ffffff', height: '100%', width: '100%'}}>
       <Typography variant="h6" align="center" sx={{ backgroundColor: adminEnergySavingHeaderBackgroundColor, color: adminEnergySavingHeaderTextColor, padding: '10px', fontFamily:adminEnergySavingFontFamily, fontSize:adminEnergySavingHeaderFontSize  }}>
         {adminEnergySavingHeaderText}
       </Typography>
       <CardContent>
-        <Grid container spacing={2} alignItems="center" style={{ marginLeft: '15px' }}>
-          <Grid item xs={4}>
-            <DatePicker
-              selectsRange
-              startDate={dateRange[0]}
-              endDate={dateRange[1]}
-              onChange={handleDateChange}
-              dateFormat="dd/MM/yyyy"
-              className="form-control"
-              placeholderText="Select Date Range"
-              isClearable={false}
-              style={{ width: '100%',fontFamily:adminEnergySavingFontFamily }}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <ButtonGroup fullWidth>
+      <Grid container spacing={2} style={{ padding: '16px'}}>
+      <Grid item sx={12} sm={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center', justifyContent: "flex-start" }}>
+
+        <Stack  style={{display:"flex", flexDirection:"row", flexWrap:"wrap", gap : 10, justifyContent:"flex-start"}} >            
+            <div style={{ width: "220px" }}>
+              <DatePicker
+                selectsRange
+                startDate={dateRange[0]}
+                endDate={dateRange[1]}
+                onChange={handleDateChange}
+                dateFormat="dd/MM/yyyy"
+                className="form-control"
+                placeholderText="Select Date Range"
+                isClearable={false}
+                style={{fontFamily: adminEnergySavingFontFamily}}            
+              />
+            </div>
+            <div >
+            <ButtonGroup fullWidth orientation="horizontal">
               <ToggleButton
                 value="day"
                 selected={selectedOption === "day"}
@@ -237,9 +265,10 @@ function EnergySaving() {
                 {adminEnergySavingDataFilterTotalText}
               </ToggleButton>
             </ButtonGroup>
-          </Grid>
-          <Grid item xs={2} style={{ marginLeft: '-30px' }}>
-            <ButtonGroup fullWidth orientation="vertical">
+            </div>
+            <div style={{marginLeft: "10px"}}>
+
+            <ButtonGroup fullWidth orientation="vertical" >
             <Tooltip title={tooltipContentHeatingCooling} placement="top" arrow>
             <span>
               <ToggleButton
@@ -267,8 +296,6 @@ function EnergySaving() {
                     },
                   },
                   height: '20px',
-                  paddingTop: '5px',
-                  paddingBottom: '5px',
                   border: "none",
                   borderRadius: 0,
                   justifyContent: 'flex-start'
@@ -311,8 +338,6 @@ function EnergySaving() {
                     },
                   },
                   height: '20px',
-                  paddingTop: '5px',
-                  paddingBottom: '5px',
                   border: "none",
                   borderRadius: 0,
                   justifyContent: 'flex-start'
@@ -345,8 +370,6 @@ function EnergySaving() {
                     fontWeight: "normal"
                   },
                   height: '20px',
-                  paddingTop: '5px',
-                  paddingBottom: '5px',
                   border: "none",
                   borderRadius: 0,
                   justifyContent: 'flex-start',
@@ -360,15 +383,18 @@ function EnergySaving() {
                 {adminEnergySavingLightingText}
               </ToggleButton>
             </ButtonGroup>
-          </Grid>
+            </div>
+        </Stack>
+        </Grid>
         </Grid>
         <Grid container spacing={0} style={{ marginTop: '40px' }}>
           <Grid item xs={12}>
-            <EnergyGraph />
+            <EnergyGraph boxSizeWidth={boxSize.width}/>
           </Grid>
       </Grid>
       </CardContent>
     </Card>
+    </ResizableBox>
   );
 }
 

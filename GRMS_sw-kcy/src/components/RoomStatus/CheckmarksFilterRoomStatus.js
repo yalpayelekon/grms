@@ -5,7 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import '../../css/Badge.css';  // Yeni CSS dosyasını ekliyoruz
 
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
 
 // admin
 const adminCheckmarksFilterRoomStatusTextColor = UISettingsData.adminCheckmarksFilterRoomStatusTextColor; // "#0000ff"

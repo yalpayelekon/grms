@@ -2,7 +2,7 @@ import * as React from 'react';
 import { LineChart } from '@mui/x-charts';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
 
 const years = [
   new Date(1990, 0, 1),
@@ -62,7 +62,7 @@ const outsideTemp = [
     18, 17, 16, 15, 14, 13, 12, 11, 10
   ];
 
-export default function EnergyGraph() {
+export default function EnergyGraph({boxSizeWidth}) {
 
     // admin
     const adminEnergyGraphFontFamily = UISettingsData.adminEnergyGraphFontFamily; // 'ariel'
@@ -119,7 +119,7 @@ export default function EnergyGraph() {
                 yAxisKey:"rightAxisId"
             },
           ]}
-          width={800}
+          width={boxSizeWidth}
           height={400}
           margin={{ left: 70 }}
           slotProps={{

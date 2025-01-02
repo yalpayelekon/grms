@@ -1,7 +1,7 @@
 import { TableHead, TableRow, TableCell, TableSortLabel } from "@mui/material";
 import PropTypes from "prop-types";
 
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
 
 const TableHeader = ({ order, orderBy, onRequestSort }) => {
 

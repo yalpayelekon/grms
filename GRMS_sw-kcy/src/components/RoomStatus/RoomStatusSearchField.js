@@ -2,7 +2,7 @@ import React from 'react';
 import { TextField, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
 
 function RoomStatusSearchField({ searchTerm, setSearchTermFunction, handleKeyDown, handleSearchClick }) {
 

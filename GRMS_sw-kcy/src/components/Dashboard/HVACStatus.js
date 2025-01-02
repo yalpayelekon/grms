@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Grid, Box } from '@mui/material';
 import Avatar from '@mui/material/Avatar'; 
-import HvacActiveCold from '../../icons/dashboard/HVACStatus/HvacActiveCold.png';
-import HvacActiveHot from '../../icons/dashboard/HVACStatus/HvacActiveHot.png';
-import HvacActive from '../../icons/dashboard/HVACStatus/HvacActive.png';
-import TemperatureIcon from '../../icons/tempDate/temperature.png';
-
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import HvacActiveCold from '../../assets/icons/dashboard/HVACStatus/HvacActiveCold.png';
+import HvacActiveHot from '../../assets/icons/dashboard/HVACStatus/HvacActiveHot.png';
+import HvacActive from '../../assets/icons/dashboard/HVACStatus/HvacActive.png';
+import TemperatureIcon from '../../assets/icons/tempDate/temperature.png';
+import { ResizableBox } from 'react-resizable';  // Import ResizableBox
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import config from "../../config/config.json";  // JSON dosyasını içe aktarın
 
 export default function HVACStatus({temperature}) {
 
@@ -50,7 +51,8 @@ export default function HVACStatus({temperature}) {
 
   useEffect(() => {
     const fetchData = () => {
-    fetch("http://localhost:8000/getDashboardHVACStatusData")
+      const url = `${config.apiBaseUrl}${config.endpoints.getDashboardHVACStatusData}`;
+      fetch(url)
       .then(res => res.json())
       .then(data => {
         if (data && data.hvacStatus) {
@@ -64,7 +66,7 @@ export default function HVACStatus({temperature}) {
 
     fetchData();
 
-    const intervalId = setInterval(fetchData, 60000);
+    const intervalId = setInterval(fetchData, config.intervalTimes.getDashboardHVACStatusData);
     return () => clearInterval(intervalId);
   }, []);
 
@@ -232,13 +234,39 @@ export default function HVACStatus({temperature}) {
     }
   };
 
+  // LocalStorage'den boyutları geri yükleme
+  const [boxSize, setBoxSize] = useState(() => {
+    const savedWidth = localStorage.getItem('resizableBoxWidthHVAC');
+    const savedHeight = localStorage.getItem('resizableBoxHeightHVAC');
+    return {
+      width: savedWidth ? parseInt(savedWidth, 10) : 400,
+      height: savedHeight ? parseInt(savedHeight, 10) : 320,
+    };
+  });
+      
+  // Boyut değişikliklerini localStorage'de kaydetme
+  const onResizeStop = (e, data) => {
+    setBoxSize({ width: data.size.width, height: data.size.height });
+    localStorage.setItem('resizableBoxWidthHVAC', data.size.width);
+    localStorage.setItem('resizableBoxHeightHVAC', data.size.height);
+  };
+
   return (
+    <ResizableBox
+      width={boxSize.width} //{400}
+      height={boxSize.height} // {320}
+      axis="both"
+      minConstraints={[350, 320]}  // Minimum size for the card
+      maxConstraints={[500, 600]}  // Maximum size for the card
+      resizeHandles={['se']}  // Resizing from bottom-right corner
+      onResizeStop={onResizeStop}
+      style={{ margin: 'auto' }}
+    >
     <Card
       sx={{
         backgroundColor: adminHVACStatusBodyBackgroundColor,
         color: adminHVACStatusHeaderTextColor,
-        width: cardWidth,
-        height: cardHeight,
+        height: '100%', width: '100%',
         margin: 'auto',
       }}
     >
@@ -294,5 +322,6 @@ export default function HVACStatus({temperature}) {
         </Grid>
       </CardContent>
     </Card>
+    </ResizableBox>
   );
 };

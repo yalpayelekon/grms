@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Card, CardContent, Typography, Chip } from '@mui/material';
-import murblue from '../../icons/dashboard/ServiceRequests/murblue.png';
-import lndy from '../../icons/dashboard/ServiceRequests/lndy.png';
+import murblue from '../../assets/icons/dashboard/ServiceRequests/murblue.png';
+import lndy from '../../assets/icons/dashboard/ServiceRequests/lndy.png';
 import GaugeChartComponent from '../CommonComponents/GaugeChartComponent';
-
-import UISettingsData from '../../jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
+import { ResizableBox } from 'react-resizable';  // Import ResizableBox
+import UISettingsData from '../../assets/jsonFiles/UISettingsData.json'; // JSON dosyasını import ettik
 
 const ServiceRequest = ({ averageResponseTimeGauge, averageResponseTime, averageServiceTimeGauge, averageServiceTime, serviceRequestData }) => {
 
@@ -107,8 +107,35 @@ const ServiceRequest = ({ averageResponseTimeGauge, averageResponseTime, average
     });
   };
 
+  // LocalStorage'den boyutları geri yükleme
+  const [boxSize, setBoxSize] = useState(() => {
+    const savedWidth = localStorage.getItem('resizableBoxWidthServiceRequest');
+    const savedHeight = localStorage.getItem('resizableBoxHeightServiceRequest');
+    return {
+      width: savedWidth ? parseInt(savedWidth, 10) : 400,
+      height: savedHeight ? parseInt(savedHeight, 10) : 320,
+    };
+  });
+      
+  // Boyut değişikliklerini localStorage'de kaydetme
+  const onResizeStop = (e, data) => {
+    setBoxSize({ width: data.size.width, height: data.size.height });
+    localStorage.setItem('resizableBoxWidthServiceRequest', data.size.width);
+    localStorage.setItem('resizableBoxHeightServiceRequest', data.size.height);
+  };
+
   return (
-    <Card sx={{ backgroundColor: adminServiceRequestBodyBackgroundColor, color: 'white', width: cardWidth, height: cardHeight, margin: 'auto' }}>
+    <ResizableBox
+      width={boxSize.width} //{400}
+      height={boxSize.height} // {320}
+      axis="both"
+      minConstraints={[350, 320]}  // Minimum size for the card
+      maxConstraints={[500, 600]}  // Maximum size for the card
+      resizeHandles={['se']}  // Resizing from bottom-right corner
+      onResizeStop={onResizeStop}
+      style={{ margin: 'auto' }}
+    >
+    <Card sx={{ backgroundColor: adminServiceRequestBodyBackgroundColor, color: 'white', height: '100%', width: '100%' }}>
       <Typography variant="h6" align="center" gutterBottom sx={{ color: adminServiceRequestHeaderTextColor, backgroundColor: adminServiceRequestHeaderBackgroundColor, padding: 1, fontFamily: adminServiceRequestFontFamily, fontSize: adminServiceRequestHeaderFontSize }}>
         {adminServiceRequestHeaderText}
       </Typography>
@@ -154,6 +181,7 @@ const ServiceRequest = ({ averageResponseTimeGauge, averageResponseTime, average
         )}
       </CardContent>
     </Card>
+    </ResizableBox>
   );
 };
 
