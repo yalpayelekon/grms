@@ -329,6 +329,7 @@ def setRCUModbus(blokNumarasi, katNumarasi, odaNumarasi, updated_data):
 def parse_string(ip, s):
     global controllerInfo
     pattern1 = "3e0500040200" # event_onboard_input_events 3e05040200
+    patternDaliInput = "3e0600040400"
     pattern2 = "3e0500030000" # control_general_ack 3e05030000
 
     pattern3 = "3e0300040600" # Event_dndapp_mur_requested 3e03040600 
@@ -400,6 +401,7 @@ def parse_string(ip, s):
     
     
     result1 = []
+    resultDaliInput = []
     result2 = []
     result34 = []
     result56 = []
@@ -410,9 +412,12 @@ def parse_string(ip, s):
 
     i = 0
     while i < len(s):
-        if s[i:i+len(pattern1)] == pattern1:
+        if s[i:i+len(pattern1)] == pattern1: # onboard
             result1.append(s[i:i+14])
             i += 16
+        elif s[i:i+len(patternDaliInput)] == patternDaliInput: # dali
+            resultDaliInput.append(s[i:i+14])
+            i += 18
         elif s[i:i+len(pattern2)] == pattern2 :
             result2.append(s[i:i+14])
             i += 16
@@ -497,7 +502,7 @@ def parse_string(ip, s):
         else:
             i += 1
 
-    return result1, result2, result34, result56, result78, result11_12, result13_14, result_pattern_rcu_modbus_termostat_T9600
+    return result1, resultDaliInput, result2, result34, result56, result78, result11_12, result13_14, result_pattern_rcu_modbus_termostat_T9600
 
 def parse_string_helvar(input_string, ip):
     global controllerInfo
@@ -1372,6 +1377,7 @@ def listen_tcp_connection_v2(ip, port):
             logger.info(f"listen_tcp_connection_v2: responceDataList: {controllerInfo[ip]["responceDataList"]}")
 
             final_list_event_onboard_input_events = []
+            final_list_event_dali_input_events = []
             final_list_control_general_ack = []
             final_list_event_dnd_app_mur_request = []
             final_list_event_dnd_app_laundry_request = []
@@ -1382,9 +1388,10 @@ def listen_tcp_connection_v2(ip, port):
             for responce_data in controllerInfo[ip]["responceDataList"]: # responce_data icerisindeki islemleri gerceklestir eger gerceklesirse temizle gerceklesmezse bir sonraki turda gerceklesir
 
                 # list_event_onboard_input_events: butona basilma sonucu gelen mesaj
-                list_event_onboard_input_events, list_control_general_ack, list_event_dnd_app_mur_request, list_event_dnd_app_laundry_request, list_event_dnd_app_dnd_request, list_event_occupancy_room_occupied, list_event_open_door_alarm, list_event_rcu_modbus_termostat_Y9600 = parse_string(ip, responce_data) 
+                list_event_onboard_input_events, list_event_dali_input_events, list_control_general_ack, list_event_dnd_app_mur_request, list_event_dnd_app_laundry_request, list_event_dnd_app_dnd_request, list_event_occupancy_room_occupied, list_event_open_door_alarm, list_event_rcu_modbus_termostat_Y9600 = parse_string(ip, responce_data) 
 
                 final_list_event_onboard_input_events.extend(list_event_onboard_input_events)
+                final_list_event_dali_input_events.extend(list_event_dali_input_events)
                 final_list_event_dnd_app_mur_request.extend(list_event_dnd_app_mur_request)
                 final_list_event_dnd_app_laundry_request.extend(list_event_dnd_app_laundry_request)
                 final_list_event_dnd_app_dnd_request.extend(list_event_dnd_app_dnd_request)
@@ -1394,6 +1401,7 @@ def listen_tcp_connection_v2(ip, port):
                 final_list_event_rcu_modbus_termostat_Y9600.extend(list_event_rcu_modbus_termostat_Y9600)
 
             logger.info(f"final_list_event_onboard_input_events: {final_list_event_onboard_input_events}")
+            logger.info(f"final_list_event_dali_input_events: {final_list_event_dali_input_events}")
             logger.info(f"final_list_event_dnd_app_mur_request: {final_list_event_dnd_app_mur_request}")
             logger.info(f"final_list_event_dnd_app_laundry_request: {final_list_event_dnd_app_laundry_request}")
             logger.info(f"final_list_event_dnd_app_dnd_request: {final_list_event_dnd_app_dnd_request}")
@@ -1441,8 +1449,8 @@ def listen_tcp_connection_v2(ip, port):
             if len(final_list_event_rcu_modbus_termostat_Y9600) > 0: 
                 updateRCUModbusTermostatT9600(blokNumarasi, katNumarasi, odaNumarasi, final_list_event_rcu_modbus_termostat_Y9600[-1])
 
-            if len(final_list_event_onboard_input_events) > 0: # Her bir onboard event icin actual level sorgusu yapiliyor.
-
+            # eger onboard yada dali input varsa
+            if len(final_list_event_onboard_input_events) > 0 or len(final_list_event_dali_input_events) > 0: 
                 # RCU onboard output
                 logger.info("Her bir output un actual level sorgusu yapiliyor.")
                 list_address_actual_level = []

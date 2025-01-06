@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-c8rdx6q(sv=6b@%sd*tbm7##xq!5m8%)7ax!j+meclh(&z3)xo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.27.8.10', 'localhost', '127.0.0.1', '94.54.73.100', 'localhost', '10.11.10.64']
+ALLOWED_HOSTS = ['172.27.8.10', 'localhost', '127.0.0.1', '94.54.73.100',]
 
 INSTALLED_APPS = [
     'tridiumBackendApp',
@@ -149,7 +149,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3500",
     "http://127.0.0.1:8000",
     "http://192.168.0.16:3000",  
-    "http://10.11.10.64:3000",
     # Daha fazla origin ekleyebilirsiniz
 ]
 
