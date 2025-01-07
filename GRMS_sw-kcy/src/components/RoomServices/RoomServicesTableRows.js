@@ -116,7 +116,7 @@ const RoomServicesTableRows = ({ page, rowsPerPage, order, orderBy, data }) => {
     const katNumber = row.katNumarasi;
     const oda_number = row.roomId;
     
-    const url = `${config.apiBaseUrl}${config.endpoints.getRoomDetailsData}${blokNumber}/${katNumber}/${oda_number}/`;
+    const url = `${config.apiBaseUrl}${config.endpoints.getRoomDetailsData}/${blokNumber}/${katNumber}/${oda_number}/`;
     fetch(url)
       .then(res => {
         return res.json();

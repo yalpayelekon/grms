@@ -45,12 +45,12 @@ function RoomStatus({ setActiveLink, blokKatAlarmNumberData }) {
 
     const adminRoomStatusFontFamily = UISettingsData.adminRoomStatusFontFamily || "Poppins";
 
-    const topTextLineRentedOccupied = UISettingsData.topTextLineRentedOccupied || "Rented Occupied";
-    const topTextLineRentedHK = UISettingsData.topTextLineRentedHK || "Rented HK";
-    const topTextLineRentedVacant = UISettingsData.topTextLineRentedVacant || "Rented Vacant";
-    const topTextLineUnrentedHK = UISettingsData.topTextLineUnrentedHK || "Unrented HK";
-    const topTextLineUnrentedVacant = UISettingsData.topTextLineUnrentedVacant || "Unrented Vacant";
-    const topTextLineMalfunctionAlarms = UISettingsData.topTextLineMalfunctionAlarms || "Malfunction/Alarms";
+    const adminTopTextLineRentedOccupied = UISettingsData.adminTopTextLineRentedOccupied || "Rented Occupied";
+    const adminTopTextLineRentedHK = UISettingsData.adminTopTextLineRentedHK || "Rented HK";
+    const adminTopTextLineRentedVacant = UISettingsData.adminTopTextLineRentedVacant || "Rented Vacant";
+    const adminTopTextLineUnrentedHK = UISettingsData.adminTopTextLineUnrentedHK || "Unrented HK";
+    const adminTopTextLineUnrentedVacant = UISettingsData.adminTopTextLineUnrentedVacant || "Unrented Vacant";
+    const adminTopTextLineMalfunctionAlarms = UISettingsData.adminTopTextLineMalfunctionAlarms || "Malfunction/Alarms";
 
     const location = useLocation();
     const initialBlokNumarasi = location.state?.blokNumarasi || "A"; // URL durumundan blokNumarasi alınır veya varsayılan "A" kullanılır
@@ -608,14 +608,14 @@ function RoomStatus({ setActiveLink, blokKatAlarmNumberData }) {
                         {/* <img src={filterIcon} alt="Alarm Filter Icon" style={{ height: 'auto', width: '40px' ,marginTop: -25}} /> Sağa kaydırmak için marginLeft ekledik */}
                         {isGenelMahal !== "1" && (
                             <>
-                            <IconWithText iconSrc={greenadamvaliz} topTextLine={topTextLineRentedOccupied} bottomText={roomStateNumber[0]} roomNumber={roomNumber} opacity={opacityRentedOccupied} onClick={handleClickRentedOccupiedFilter} adminRoomStatusFontFamily={adminRoomStatusFontFamily}/>                 
-                            <IconWithText iconSrc={greenhousekeeping} topTextLine={topTextLineRentedHK} bottomText={roomStateNumber[1]} roomNumber={roomNumber} opacity={opacityRentedHK} onClick={handleClickRentedHKFilter} adminRoomStatusFontFamily={adminRoomStatusFontFamily}/>  
-                            <IconWithText iconSrc={greenvaliz} topTextLine={topTextLineRentedVacant} bottomText={roomStateNumber[2]} roomNumber={roomNumber} opacity={opacityRentedVacant} onClick={handleClickRentedVacantFilter} adminRoomStatusFontFamily={adminRoomStatusFontFamily}/>  
-                            <IconWithText iconSrc={whitehousekeeping} topTextLine={topTextLineUnrentedHK} bottomText={roomStateNumber[3]} roomNumber={roomNumber} opacity={opacityUnrentedHK} onClick={handleClickUnrentedHKFilter} adminRoomStatusFontFamily={adminRoomStatusFontFamily}/>  
-                            <IconWithText iconSrc={white} topTextLine={topTextLineUnrentedVacant} bottomText={roomStateNumber[4]} roomNumber={roomNumber} opacity={opacityUnrentedVacant} onClick={handleClickUnrentedVacantFilter} adminRoomStatusFontFamily={adminRoomStatusFontFamily}/>  
+                            <IconWithText iconSrc={greenadamvaliz} topTextLine={adminTopTextLineRentedOccupied} bottomText={roomStateNumber[0]} roomNumber={roomNumber} opacity={opacityRentedOccupied} onClick={handleClickRentedOccupiedFilter} adminRoomStatusFontFamily={adminRoomStatusFontFamily}/>                 
+                            <IconWithText iconSrc={greenhousekeeping} topTextLine={adminTopTextLineRentedHK} bottomText={roomStateNumber[1]} roomNumber={roomNumber} opacity={opacityRentedHK} onClick={handleClickRentedHKFilter} adminRoomStatusFontFamily={adminRoomStatusFontFamily}/>  
+                            <IconWithText iconSrc={greenvaliz} topTextLine={adminTopTextLineRentedVacant} bottomText={roomStateNumber[2]} roomNumber={roomNumber} opacity={opacityRentedVacant} onClick={handleClickRentedVacantFilter} adminRoomStatusFontFamily={adminRoomStatusFontFamily}/>  
+                            <IconWithText iconSrc={whitehousekeeping} topTextLine={adminTopTextLineUnrentedHK} bottomText={roomStateNumber[3]} roomNumber={roomNumber} opacity={opacityUnrentedHK} onClick={handleClickUnrentedHKFilter} adminRoomStatusFontFamily={adminRoomStatusFontFamily}/>  
+                            <IconWithText iconSrc={white} topTextLine={adminTopTextLineUnrentedVacant} bottomText={roomStateNumber[4]} roomNumber={roomNumber} opacity={opacityUnrentedVacant} onClick={handleClickUnrentedVacantFilter} adminRoomStatusFontFamily={adminRoomStatusFontFamily}/>  
                             </>
                         )}
-                        <IconWithText iconSrc={onlyRed} topTextLine={topTextLineMalfunctionAlarms} bottomText={roomStateNumber[5]} roomNumber={roomNumber} opacity={opacityMalfunction} onClick={handleClickMalfunctionFilter} adminRoomStatusFontFamily={adminRoomStatusFontFamily}/>  
+                        <IconWithText iconSrc={onlyRed} topTextLine={adminTopTextLineMalfunctionAlarms} bottomText={roomStateNumber[5]} roomNumber={roomNumber} opacity={opacityMalfunction} onClick={handleClickMalfunctionFilter} adminRoomStatusFontFamily={adminRoomStatusFontFamily}/>  
                         <LogoComponent/>
                     </Stack>
                 </Grid>

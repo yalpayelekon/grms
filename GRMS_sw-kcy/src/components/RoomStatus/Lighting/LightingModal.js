@@ -159,7 +159,7 @@ const LightingModal = ({ selectedLightingOda, isLightingModalOpen, setIsLighting
         console.log('Oda Numarasi:', localLightingOda.odaNumarasi);
         console.log('ip:', localLightingOda.ip);
 
-        const url = `${config.apiBaseUrl}${config.endpoints.putControllerActualLevelData}/${localLightingOda.blokNumarasi}/${localLightingOda.katNumarasi}/${localLightingOda.odaNumarasi}/${localLightingOda.ip}`;
+        const url = `${config.apiBaseUrl}${config.endpoints.putControllerActualLevelData}/${localLightingOda.ip}`;
         // const url = `http://127.0.0.1:8000/putControllerActualLevelData/${localLightingOda.blokNumarasi}/${localLightingOda.katNumarasi}/${localLightingOda.odaNumarasi}/${localLightingOda.ip}`
         fetch(url, {
             method: 'PUT',

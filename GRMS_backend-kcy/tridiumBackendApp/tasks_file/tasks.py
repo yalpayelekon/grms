@@ -33,7 +33,6 @@ controllerInfo = {
     }
 } 
 
-rcuList = {"10.11.10.114": RCUClass("10.11.10.114", 5556, "A", "1", "1100")}
 
 timeout = 3 # saniye
 
